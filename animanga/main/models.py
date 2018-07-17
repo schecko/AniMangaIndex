@@ -1,0 +1,104 @@
+from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
+from enum import Enum
+
+class User(models.Model):
+	userID = models.IntegerField(primary_key = True)
+	privileges = models.BooleanField()
+	password = models.CharField(max_length = 255)
+	email = models.CharField(max_length = 255)
+
+class Studio(models.Model):
+	name = models.CharField(primary_key = True, max_length = 255)
+	founded = models.DateField()
+
+class Content(models.Model):
+	contentID = models.IntegerField(primary_key = True)
+	
+	class ContentType(Enum):
+		Manga = 0
+		Book = 1
+		Anime = 2
+
+	type = models.IntegerField(choices = [ (tag.value, tag.name) for tag in ContentType ])
+	title = models.CharField(max_length = 200)
+	complete = models.BooleanField()
+	rating = models.IntegerField(validators = [MaxValueValidator(5), MinValueValidator(0)])
+	date = models.DateField()
+
+	class Genre(Enum):
+		Mystery = 0
+		Drama = 1
+
+	genre = models.IntegerField(choices = [ (tag.value, tag.name) for tag in Genre ])
+
+class FavoriteContent(models.Model):
+	userID = models.ForeignKey( User, 
+								unique = False, 
+								on_delete = models.DO_NOTHING)
+
+	contentID = models.ForeignKey(  Content, 
+									unique = False,
+									on_delete = models.DO_NOTHING)
+
+	class Meta:
+		unique_together = (( "userID", "contentID"), )
+
+class Creator(models.Model):
+	creatorID = models.IntegerField(primary_key = True)
+	birthday = models.DateField()
+	gender = models.BooleanField()
+	name = models.CharField(max_length = 255)
+
+class Licenses(models.Model):
+	contentID = models.ForeignKey(  Content,
+									unique = False,
+									on_delete = models.CASCADE)
+	studio = models.ForeignKey( Studio,
+								unique = False,
+								on_delete = models.DO_NOTHING)
+	publisher = models.CharField(max_length = 255)
+
+	class Meta:
+		unique_together = (( "contentID", "studio"), )
+
+class Hires(models.Model):
+	studio = models.ForeignKey( Studio, 
+								unique = False,
+								on_delete = models.DO_NOTHING)
+	creator = models.ForeignKey(Creator,
+								unique = False,
+								on_delete = models.DO_NOTHING)
+
+	class Meta:
+		unique_together = (( "studio", "creator"), )
+
+class Creates(models.Model):
+	content = models.ForeignKey(Content,
+								unique = False,
+								on_delete = models.CASCADE)
+	creator = models.ForeignKey(Creator,
+								unique = False,
+								on_delete = models.DO_NOTHING)
+
+	class Meta:
+		unique_together = (( "content", "creator"), )
+	
+	class Role(Enum):
+		Artist = 0
+		Director = 1
+		Animator = 2
+		Author = 3
+
+	role = models.IntegerField(choices = [ (tag.value, tag.name) for tag in Role ])
+
+class VolumeSeason(models.Model):
+	contentID = models.ForeignKey(  Content, 
+									on_delete = models.CASCADE,
+									unique = False)
+	num = models.IntegerField()
+	title = models.CharField(max_length = 225)
+
+	class Meta:
+		unique_together = (( "contentID", "num"), )
+	
