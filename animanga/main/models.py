@@ -34,12 +34,10 @@ class Content(models.Model):
 
 class FavoriteContent(models.Model):
 	userID = models.ForeignKey( User, 
-								primary_key = True,
 								unique = False, 
 								on_delete = models.DO_NOTHING)
 
 	contentID = models.ForeignKey(  Content, 
-									primary_key = True,
 									unique = False,
 									on_delete = models.DO_NOTHING)
 
@@ -52,18 +50,11 @@ class Creator(models.Model):
 	gender = models.BooleanField()
 	name = models.CharField(max_length = 255)
 
-class Studio(models.Model):
-	name = models.CharField(max_length = 255,
-							primary_key = True)
-	founded = models.DateField()
-
 class Licenses(models.Model):
 	contentID = models.ForeignKey(  Content,
-									primary_key = True,
 									unique = False,
 									on_delete = models.CASCADE)
 	studio = models.ForeignKey( Studio,
-								primary_key = True,
 								unique = False,
 								on_delete = models.DO_NOTHING)
 	publisher = models.CharField(max_length = 255)
@@ -73,11 +64,9 @@ class Licenses(models.Model):
 
 class Hires(models.Model):
 	studio = models.ForeignKey( Studio, 
-								primary_key = True,
 								unique = False,
 								on_delete = models.DO_NOTHING)
 	creator = models.ForeignKey(Creator,
-								primary_key = True,
 								unique = False,
 								on_delete = models.DO_NOTHING)
 
@@ -86,11 +75,9 @@ class Hires(models.Model):
 
 class Creates(models.Model):
 	content = models.ForeignKey(Content,
-								primary_key = True,
 								unique = False,
 								on_delete = models.CASCADE)
 	creator = models.ForeignKey(Creator,
-								primary_key = True,
 								unique = False,
 								on_delete = models.DO_NOTHING)
 
@@ -108,8 +95,7 @@ class Creates(models.Model):
 class VolumeSeason(models.Model):
 	contentID = models.ForeignKey(  Content, 
 									on_delete = models.CASCADE,
-									unique = False,
-									primary_key = True)
+									unique = False)
 	num = models.IntegerField()
 	title = models.CharField(max_length = 225)
 

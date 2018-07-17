@@ -1,3 +1,13 @@
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+
+admin.site.register(User)
+admin.site.register(Studio)
+admin.site.register(Content)
+admin.site.register(FavoriteContent)
+admin.site.register(Creator)
+admin.site.register(Licenses)
+admin.site.register(Hires)
+admin.site.register(Creates)
+admin.site.register(VolumeSeason)
