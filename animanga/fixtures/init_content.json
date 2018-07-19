@@ -1,0 +1,93 @@
+[
+{
+    "model": "main.Content",
+    "pk": 0,
+    "fields": {
+        "contentID": 0,
+        "type": 2,
+		"title": "Steins;Gate 0",
+        "complete": 1,
+		"rating": 9,
+        "date": "2018-04-12",
+		"genre": 2
+    }
+},
+{
+    "model": "main.Content",
+    "pk": 1,
+    "fields": {
+        "contentID": 1,
+        "type": 2,
+		"title": "Tokyo Ghoul:re",
+        "complete": 1,
+		"rating": 7,
+        "date": "2018-04-03",
+		"genre": 3
+    }
+},
+{
+    "model": "main.Content",
+    "pk": 2,
+    "fields": {
+        "contentID": 2,
+        "type": 2,
+		"title": "Sword Art Online Alternative: Gun Gale Online",
+        "complete": 1,
+		"rating": 7,
+        "date": "2018-04-08",
+		"genre": 4
+    }
+},
+{
+    "model": "main.Content",
+    "pk": 3,
+    "fields": {
+        "contentID": 3,
+        "type": 0,
+		"title": "One Piece",
+        "complete": 0,
+		"rating": 9,
+        "date": "1997-07-22",
+		"genre": 5
+    }
+},
+{
+    "model": "main.Content",
+    "pk": 4,
+    "fields": {
+        "contentID": 4,
+        "type": 2,
+		"title": "One Piece",
+        "complete": 0,
+		"rating": 9,
+        "date": "1999-10-20",
+		"genre": 5
+    }
+},
+{
+    "model": "main.Content",
+    "pk": 5,
+    "fields": {
+        "contentID": 5,
+        "type": 0,
+		"title": "Great Teacher Onizuka",
+        "complete": 1,
+		"rating": 9,
+        "date": "1997-05-16",
+		"genre": 3
+    }
+},
+{
+    "model": "main.Content",
+    "pk": 6,
+    "fields": {
+        "contentID": 6,
+        "type": 2,
+		"title": "Great Teacher Onizuka",
+        "complete": 1,
+		"rating": 9,
+        "date": "1998-07-7",
+		"genre": 3
+    }
+}
+]
