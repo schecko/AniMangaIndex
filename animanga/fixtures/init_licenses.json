@@ -1,0 +1,38 @@
+[
+{
+    "model": "main.Licenses",
+    "pk": 0,
+    "fields": {
+        "contentID": 0,
+        "studio": "White Fox",
+		"publisher": "Funimation"
+    }
+},
+{
+    "model": "main.Licenses",
+    "pk": 1,
+    "fields": {
+        "contentID": 1,
+        "studio": "Studio Pierrot",
+		"publisher": "Funimation"
+    }
+},
+{
+    "model": "main.Licenses",
+    "pk": 2,
+    "fields": {
+        "contentID": 2,
+        "studio": "Studio 3Hz",
+		"publisher": "Aniplex of America"
+    }
+},
+{
+    "model": "main.Licenses",
+    "pk": 3,
+    "fields": {
+        "contentID": 3,
+        "studio": "Ufotable",
+		"publisher": "Type-Moon"
+    }
+}
+]

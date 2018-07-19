@@ -1,0 +1,42 @@
+[
+{
+    "model": "main.FavoriteContent",
+    "pk": 0,
+    "fields": {
+        "userID": 0,
+        "contentID": 0
+    }
+},
+{
+    "model": "main.FavoriteContent",
+    "pk": 1,
+    "fields": {
+        "userID": 1,
+        "contentID": 1
+    }
+},
+{
+    "model": "main.FavoriteContent",
+    "pk": 2,
+    "fields": {
+        "userID": 2,
+        "contentID": 1
+    }
+},
+{
+    "model": "main.FavoriteContent",
+    "pk": 3,
+    "fields": {
+        "userID": 3,
+        "contentID": 3
+	}
+},
+{
+    "model": "main.FavoriteContent",
+    "pk": 4,
+    "fields": {
+        "userID": 4,
+        "contentID": 5
+	}
+}
+]

@@ -1,0 +1,56 @@
+[
+{
+    "model": "main.VolumeSeason",
+    "pk": 0,
+    "fields": {
+        "contentID": 0,
+        "num": 1,
+		"title": "Steins;Gate 0"
+    }
+},
+{
+    "model": "main.VolumeSeason",
+    "pk": 1,
+    "fields": {
+        "contentID": 1,
+        "num": 3,
+		"title": "Tokyo Ghoul:re"
+    }
+},
+{
+    "model": "main.VolumeSeason",
+    "pk": 2,
+    "fields": {
+        "contentID": 2,
+        "num": 4,
+		"title": "Sword Art Online Alternative: Gun Gale Online"
+    }
+},
+{
+    "model": "main.VolumeSeason",
+    "pk": 3,
+    "fields": {
+        "contentID": 3,
+        "num": 0,
+		"title": "Fate/Zero"
+    }
+},
+{
+    "model": "main.VolumeSeason",
+    "pk": 4,
+    "fields": {
+        "contentID": 4,
+        "num": 5,
+		"title": "Fate/Zero"
+    }
+},
+{
+    "model": "main.VolumeSeason",
+    "pk": 5,
+    "fields": {
+        "contentID": 5,
+        "num": 1,
+		"title": "Fate/Zero"
+    }
+}
+]

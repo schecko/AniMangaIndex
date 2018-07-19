@@ -1,0 +1,106 @@
+[
+{
+    "model": "main.Hires",
+    "pk": 0,
+    "fields": {
+        "studio": "White Fox",
+        "creator": 0
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 1,
+    "fields": {
+        "studio": "White Fox",
+        "creator": 1
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 2,
+    "fields": {
+        "studio": "White Fox",
+        "creator": 2
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 3,
+    "fields": {
+        "studio": "Studio Pierrot",
+        "creator": 3
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 4,
+    "fields": {
+        "studio": "Studio Pierrot",
+        "creator": 4
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 5,
+    "fields": {
+        "studio": "Studio Pierrot",
+        "creator": 5
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 6,
+    "fields": {
+        "studio": "Studio 3Hz",
+        "creator": 6
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 7,
+    "fields": {
+        "studio": "Studio 3Hz",
+        "creator": 7
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 8,
+    "fields": {
+        "studio": "Studio 3Hz",
+        "creator": 8
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 9,
+    "fields": {
+        "studio": "Ufotable",
+        "creator": 9
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 10,
+    "fields": {
+        "studio": "Ufotable",
+        "creator": 10
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 11,
+    "fields": {
+        "studio": "Ufotable",
+        "creator": 11
+    }
+},
+{
+    "model": "main.Hires",
+    "pk": 12,
+    "fields": {
+        "studio": "Ufotable",
+        "creator": 12
+    }
+}
+]

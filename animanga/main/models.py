@@ -29,6 +29,10 @@ class Content(models.Model):
 	class Genre(Enum):
 		Mystery = 0
 		Drama = 1
+		SciFi = 2
+		Action = 3
+		Fantasy = 4
+		Comedy = 5
 
 	genre = models.IntegerField(choices = [ (tag.value, tag.name) for tag in Genre ])
 
