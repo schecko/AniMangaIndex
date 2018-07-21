@@ -50,7 +50,7 @@ class Creator(models.Model):
 	gender = models.BooleanField()
 	name = models.CharField(max_length = 255)
 
-class Licenses(models.Model):
+class License(models.Model):
 	contentID = models.ForeignKey(  Content,
 									unique = False,
 									on_delete = models.CASCADE)
@@ -62,7 +62,7 @@ class Licenses(models.Model):
 	class Meta:
 		unique_together = (( "contentID", "studio"), )
 
-class Hires(models.Model):
+class Hire(models.Model):
 	studio = models.ForeignKey( Studio, 
 								unique = False,
 								on_delete = models.DO_NOTHING)
@@ -73,7 +73,7 @@ class Hires(models.Model):
 	class Meta:
 		unique_together = (( "studio", "creator"), )
 
-class Creates(models.Model):
+class Create(models.Model):
 	content = models.ForeignKey(Content,
 								unique = False,
 								on_delete = models.CASCADE)
