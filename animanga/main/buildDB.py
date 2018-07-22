@@ -1,5 +1,5 @@
-from main.models import *
 from django.db import connection
+from .models import *
 
 def fillDB():
 	cursor = connection.cursor()
@@ -11,7 +11,7 @@ def fillDB():
 	  # password   VARCHAR(255),
 	  # email      VARCHAR(255)
 	# );
-	#Inserting data into User table
+	# Inserting data into User table
 	userInsert = ['INSERT INTO main_user(userID,privileges,password,email) VALUES (0,0,123,"etonk@sfu.ca")',
 				'INSERT INTO main_user(userID,privileges,password,email) VALUES (1,1,123,"colinc@sfu.ca")',
 				'INSERT INTO main_user(userID,privileges,password,email) VALUES (2,1,123,"lindaj@sfu.ca")',
@@ -25,10 +25,10 @@ def fillDB():
 		result = cursor.fetchall()
 		
 	# CREATE TABLE main_studio(
-	  # name    VARCHAR(255) PRIMARY KEY,
+	  # name    VARCHAR(255) PRIMARY KEY,variable
 	  # founded DATE
 	# );
-	#Inserting data into Studio table	
+	# Inserting data into Studio table	
 	studioInsert = ['INSERT INTO main_studio(name,founded) VALUES ("White Fox","2007-01-01")',
 					'INSERT INTO main_studio(name,founded) VALUES ("Studio Pierrot","1979-01-01")',
 					'INSERT INTO main_studio(name,founded) VALUES ("Studio 3Hz","2013-01-01")',
@@ -48,15 +48,17 @@ def fillDB():
 	  # rating    INT,
 	  # date      DATE,
 	  # genre     VARCHAR(255),
-	  # source    VARCHAR(255)
+	  # source    INT,
+	  # FOREIGN KEY (source) REFERENCES main_content(contentID) ON DELETE NO ACTION
 	# );
-	#Inserting data into Content table
-	contentInsert = ['INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source) VALUES (0,"Anime","Steins;Gate",1,9,"2018-04-12","Mystery","Manga")',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source) VALUES (1,"Anime","Tokyo Ghoul",1,7,"2018-04-03","Action","Manga")',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source) VALUES (2,"Anime","Sword Art Online",0,7,"2018-04-08","Fantasy","Book")',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source) VALUES (3,"Manga","Fate/Zero",1,8,"2010-12-29","Action","Book")',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source) VALUES (4,"Book","Fate/Zero",1,7,"2006-12-29","Action","Book")',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source) VALUES (5,"Anime","Fate/Zero",1,9,"2011-10-01","Action","Manga")']
+	# Inserting data into Content table
+	# Note: foreign keys in django automatically get appended with _id after the variable name
+	contentInsert = ['INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (0,"Anime","Steins;Gate",1,9,"2018-04-12","Mystery",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (1,"Anime","Tokyo Ghoul",1,7,"2018-04-03","Action",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (2,"Anime","Sword Art Online",0,7,"2018-04-08","Fantasy",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (3,"Book","Fate/Zero",1,7,"2006-12-29","Action",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (4,"Manga","Fate/Zero",1,8,"2010-12-29","Action",3)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (5,"Anime","Fate/Zero",1,9,"2011-10-01","Action",4)']
 	i = 0
 	for contents in contentInsert:
 		cursor.execute(str(contentInsert[i]))
@@ -69,7 +71,7 @@ def fillDB():
 	  # gender    INT,
 	  # name      VARCHAR(255)
 	# );
-	#Inserting data into Creator table	
+	# Inserting data into Creator table	
 	creatorInsert = ['INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (0,"1971-01-02",0,"Kenichi Kawamura")',
 					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (1,"1969-01-01",0,"Jukki Hanada")',
 					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (2,"1970-07-03",0,"Chiyomaru Shikura")',
@@ -92,13 +94,13 @@ def fillDB():
 	
 	# CREATE TABLE main_license(
 	  # contentID INT PRIMARY KEY,
-	  # id    VARCHAR(255),
+	  # studio    VARCHAR(255),
 	  # publisher VARCHAR(255),
-	  # FOREIGN KEY (studio) references main_studio(studio),
-	  # FOREIGN KEY (contentID) references main_content(contentID)
-
+	  # FOREIGN KEY (studio) references main_studio(studio) ON DELETE NO ACTION,
+	  # FOREIGN KEY (contentID) references main_content(contentID) ON DELETE CASCADE
 	# );
-	#Inserting data into License table
+	# Inserting data into License table
+	# Note: foreign keys in django automatically get appended with _id after the variable name
 	licenseInsert = ['INSERT INTO main_license(contentID_id,studio_id,publisher) VALUES (0,"White Fox","Funimation")',
 					'INSERT INTO main_license(contentID_id,studio_id,publisher) VALUES (1,"Studio Pierrot","Funimation")',
 					'INSERT INTO main_license(contentID_id,studio_id,publisher) VALUES (2,"Studio 3Hz","Aniplex of America")',
@@ -111,12 +113,13 @@ def fillDB():
 		result = cursor.fetchall()
 	
 	# CREATE TABLE main_hire(
-	  # id  VARCHAR(255) PRIMARY KEY,
+	  # studio  VARCHAR(255) PRIMARY KEY,
 	  # creator INT,
-	  # FOREIGN KEY(studio) references main_studio(studio),
-	  # FOREIGN KEY (creator) references main_creator(creatorID)
+	  # FOREIGN KEY(studio) references main_studio(studio) ON DELETE NO ACTION,
+	  # FOREIGN KEY (creator) references main_creator(creatorID) ON DELETE NO ACTION
 	# );
-	#Inserting data into Hire table	
+	# Inserting data into Hire table	
+	# Note: foreign keys in django automatically get appended with _id after the variable name
 	hireInsert = ['INSERT INTO main_hire(studio_id,creator_id) VALUES ("White Fox",0)',
 				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("White Fox",1)',
 				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("White Fox",2)',
@@ -141,10 +144,11 @@ def fillDB():
 	  # content INT PRIMARY KEY,
 	  # creator INT,
 	  # role    VARCHAR(255),
-	  # FOREIGN KEY (creator) references main_creator(creatorID),
-	  # FOREIGN KEY (content) references main_content(contentID)
+	  # FOREIGN KEY (creator) references main_creator(creatorID) ON DELETE NO ACTION,
+	  # FOREIGN KEY (content) references main_content(contentID) ON DELETE CASCADE
 	# );
-	#Inserting data into Create table	
+	#Inserting data into Create table
+	# Note: foreign keys in django automatically get appended with _id after the variable name
 	createInsert = ['INSERT INTO main_create(content_id,creator_id,role) VALUES (0,0,"Director")',
 					'INSERT INTO main_create(content_id,creator_id,role) VALUES (0,1,"Animator")',
 					'INSERT INTO main_create(content_id,creator_id,role) VALUES (0,2,"Author")',
@@ -169,17 +173,18 @@ def fillDB():
 		
 	# CREATE TABLE VolumeSeason(
 		# contentID INT PRIMARY KEY, 
-		# num       INT,
+		# num       INT PRIMARY KEY,
 		# title     VARCHAR(255),
-		# FOREIGN KEY (contentID) REFERENCES main_content(contentID)
+		# FOREIGN KEY (contentID) REFERENCES main_content(contentID) ON DELETE CASCADE
 	# );
-	#Inserting data into VolumeSeason table	
-	volumeSeasonInsert = ['INSERT INTO main_volumeSeason(id,contentID_id,num,title) VALUES (0,0,1,"Steins;Gate 0")',
-						'INSERT INTO main_volumeSeason(id,contentID_id,num,title) VALUES (1,1,3,"Tokyo Ghoul:re")',
-						'INSERT INTO main_volumeSeason(id,contentID_id,num,title) VALUES (2,2,4,"Sword Art Online Alternative: Gun Gale Online")',
-						'INSERT INTO main_volumeSeason(id,contentID_id,num,title) VALUES (3,3,0,"Fate/Zero")',
-						'INSERT INTO main_volumeSeason(id,contentID_id,num,title) VALUES (4,4,5,"Fate/Zero")',
-						'INSERT INTO main_volumeSeason(id,contentID_id,num,title) VALUES (5,5,1,"Fate/Zero")']
+	# Inserting data into VolumeSeason table
+	# Note: foreign keys in django automatically get appended with _id after the variable name
+	volumeSeasonInsert = ['INSERT INTO main_volumeSeason (contentID_id,num,title) VALUES (0,1,"Steins;Gate 0")',
+						'INSERT INTO main_volumeSeason(contentID_id,num,title) VALUES (1,3,"Tokyo Ghoul:re")',
+						'INSERT INTO main_volumeSeason(contentID_id,num,title) VALUES (2,4,"Sword Art Online Alternative: Gun Gale Online")',
+						'INSERT INTO main_volumeSeason(contentID_id,num,title) VALUES (3,0,"Fate/Zero")',
+						'INSERT INTO main_volumeSeason(contentID_id,num,title) VALUES (4,5,"Fate/Zero")',
+						'INSERT INTO main_volumeSeason(contentID_id,num,title) VALUES (5,1,"Fate/Zero")']
 	
 	i = 0
 	for contents in volumeSeasonInsert:
@@ -191,10 +196,11 @@ def fillDB():
 	  # id INT,
 	  # contentID INT,
 	  # PRIMARY KEY (userID, ContentID), 
-	  # FOREIGN KEY (userID) REFERENCES Users (userID),
-	  # FOREIGN KEY (contentID) REFERENCES main_content(contentID)
+	  # FOREIGN KEY (userID) REFERENCES Users (userID) ON DELETE NO ACTION,
+	  # FOREIGN KEY (contentID) REFERENCES main_content(contentID) ON DELETE NO ACTION
 	# );
-	#Inserting data into FavoriteContent table	
+	# Inserting data into FavoriteContent table
+	# Note: foreign keys in django automatically get appended with _id after the variable name
 	favoriteContentInsert = ['INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES (0,0)',
 							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES (1,1)',
 							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES (2,1)',

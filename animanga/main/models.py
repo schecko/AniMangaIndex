@@ -35,7 +35,11 @@ class Content(models.Model):
 		Comedy = 5
 
 	genre = models.IntegerField(choices = [ (tag.value, tag.name) for tag in Genre ])
-	source = models.IntegerField(choices = [ (tag.value, tag.name) for tag in ContentType ])
+	source = models.ForeignKey(  'self', 
+								unique = False,
+								blank = True,
+								null = True,
+								on_delete = models.DO_NOTHING)
 
 class FavoriteContent(models.Model):
 	userID = models.ForeignKey( User, 
