@@ -7,6 +7,10 @@ from django.db import connection
 from .models import *
 from .buildDB import *
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 LOGIN_KEY = 'userID'
 
 class LoginForm(forms.Form):
@@ -54,6 +58,8 @@ def login(request):
 				# check that the new user was created, then send them back to the index.
 				if User.objects.get(pk = form.data[LOGIN_KEY]):
 					request.session[LOGIN_KEY] = form.data[LOGIN_KEY]
+					logger.critical(form.data[LOGIN_KEY])
+					logger.critical(request.session[LOGIN_KEY])
 					return HttpResponseRedirect('..')
 	else:
 		form = LoginForm()
@@ -80,9 +86,15 @@ def index(request):
 	if not contentList:
 		fillDB()
 
-	loggedIn = False
-	if request.session.get(LOGIN_KEY):
+	logger.critical("\n\n\n\n login key %s" % request.session.exists(LOGIN_KEY))
+	try:
+		logger.critical("key is %s " % request.session[LOGIN_KEY])
 		loggedIn = True
+	except:
+		logger.critical("key is nothing ")
+		loggedIn = False
+
+	logger.critical("logged in is " + str(loggedIn))
 
 	template = loader.get_template('main/index.html')
 	context = {
