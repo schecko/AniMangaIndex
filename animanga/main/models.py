@@ -21,7 +21,7 @@ class Content(models.Model):
 		Anime = 2
 
 	type = models.IntegerField(choices = [ (tag.value, tag.name) for tag in ContentType ])
-	title = models.CharField(max_length = 200)
+	title = models.CharField(max_length = 255)
 	complete = models.BooleanField()
 	rating = models.IntegerField(validators = [MaxValueValidator(5), MinValueValidator(0)])
 	date = models.DateField()
@@ -29,8 +29,17 @@ class Content(models.Model):
 	class Genre(Enum):
 		Mystery = 0
 		Drama = 1
+		SciFi = 2
+		Action = 3
+		Fantasy = 4
+		Comedy = 5
 
 	genre = models.IntegerField(choices = [ (tag.value, tag.name) for tag in Genre ])
+	source = models.ForeignKey(  'self', 
+								unique = False,
+								blank = True,
+								null = True,
+								on_delete = models.DO_NOTHING)
 
 class FavoriteContent(models.Model):
 	userID = models.ForeignKey( User, 
