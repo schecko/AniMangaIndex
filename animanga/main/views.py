@@ -5,7 +5,16 @@ from main.models import *
 from main.buildDB import *
 
 def index(request):
-    return HttpResponse("Hello World. You're at the manga index")
+	contentList = Content.objects.all()
+
+	#if not contentList:
+	#	fillDB()
+
+	template = loader.get_template('main/index.html')
+	context = {
+		'contentList': contentList
+	}
+	return HttpResponse(template.render(context, request))
 
 def contentDetail(request, contentID):
 	contentList = Content.objects.all()
@@ -31,5 +40,3 @@ def creatorDetail(request, creatorID):
 		'contentList': contentList
 	}
 	return HttpResponse(template.render(context, request))
-	
-	
