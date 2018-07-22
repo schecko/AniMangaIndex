@@ -1,8 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from django import forms
 from .models import *
 from .buildDB import *
+
+class LoginForm(forms.Form):
+	userName = forms.CharField(label = 'User Name', max_length = 255)
+	password = forms.CharField(label = "Password", max_length = 255)
 
 def index(request):
 	contentList = Content.objects.all()
