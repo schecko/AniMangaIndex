@@ -44,23 +44,37 @@ def login(request):
 				user = dictfetchone(cursor)
 
 			if user:
+				logger.critical("user exists")
 				# user does exist, check their password
 				b = form.data['password']
 				a = user['password']
 				if form.data['password'] == user['password']:
+					logger.critical("user password is valid")
 					request.session[LOGIN_KEY] = form.data[LOGIN_KEY]
 					return HttpResponseRedirect('..')
+				else:
+					form.add_error('password', 'invalid password')
+					return render(	request, 
+									'main/login.html',
+									{ 'form': form })
 			else:
+				logger.critical("user does not exist")
 				# user does not exist, create them silently
 				with connection.cursor() as cursor:
 					cursor.execute("insert into main_user(userID, privileges, password) values ( %s, 0, %s )", [form.data[LOGIN_KEY], form.data['password']])
 
 				# check that the new user was created, then send them back to the index.
 				if User.objects.get(pk = form.data[LOGIN_KEY]):
+					logger.critical("success in creating a new user")
 					request.session[LOGIN_KEY] = form.data[LOGIN_KEY]
 					logger.critical(form.data[LOGIN_KEY])
 					logger.critical(request.session[LOGIN_KEY])
 					return HttpResponseRedirect('..')
+				else:
+					form.add_error(LOGIN_KEY, 'internal error, try again')
+					return render(	request, 
+									'main/login.html',
+									{ 'form': form })
 	else:
 		form = LoginForm()
 
