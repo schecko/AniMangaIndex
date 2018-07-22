@@ -100,15 +100,12 @@ def index(request):
 	if not contentList:
 		fillDB()
 
-	logger.critical("\n\n\n\n login key %s" % request.session.exists(LOGIN_KEY))
 	try:
 		logger.critical("key is %s " % request.session[LOGIN_KEY])
 		loggedIn = True
 	except:
 		logger.critical("key is nothing ")
 		loggedIn = False
-
-	logger.critical("logged in is " + str(loggedIn))
 
 	template = loader.get_template('main/index.html')
 	context = {
