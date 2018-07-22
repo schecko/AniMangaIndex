@@ -3,20 +3,18 @@ from .models import *
 
 def fillDB():
 	cursor = connection.cursor()
-	
-	print ("inside fillDB")
+
 	# CREATE TABLE main_user(
-	  # userID     INT PRIMARY KEY,
+	  # userID     VARCHAR(255) PRIMARY KEY,
 	  # privileges INT,
 	  # password   VARCHAR(255),
-	  # email      VARCHAR(255)
 	# );
 	# Inserting data into User table
 	userInsert = ['INSERT INTO main_user(userID,privileges,password) VALUES ("eton",0,123)',
 				'INSERT INTO main_user(userID,privileges,password) VALUES ("colin" ,1,123)',
 				'INSERT INTO main_user(userID,privileges,password) VALUES ("linda" ,1,123)',
-				'INSERT INTO main_user(userID,privileges,password) VALUES ("scott" ,1,123',
-				'INSERT INTO main_user(userID,privileges,password) VALUES ("test"  ,0,123']
+				'INSERT INTO main_user(userID,privileges,password) VALUES ("scott" ,1,123)',
+				'INSERT INTO main_user(userID,privileges,password) VALUES ("test"  ,0,123)']
 	
 	i = 0
 	for contents in userInsert:
@@ -192,8 +190,8 @@ def fillDB():
 		i+=1
 		result = cursor.fetchall()
 	
-		# CREATE TABLE main_favoritecontent(
-	  # id INT,
+	# CREATE TABLE main_favoritecontent(
+	  # userID VARCHAR(255),
 	  # contentID INT,
 	  # PRIMARY KEY (userID, ContentID), 
 	  # FOREIGN KEY (userID) REFERENCES Users (userID) ON DELETE NO ACTION,
@@ -201,11 +199,11 @@ def fillDB():
 	# );
 	# Inserting data into FavoriteContent table
 	# Note: foreign keys in django automatically get appended with _id after the variable name
-	favoriteContentInsert = ['INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES (0,0)',
-							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES (1,1)',
-							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES (2,1)',
-							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES (3,3)',
-							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES (4,5)']
+	favoriteContentInsert = ['INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES ("eton",0)',
+							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES ("colin",1)',
+							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES ("linda",1)',
+							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES ("scott",3)',
+							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES ("test",5)']
 	
 	i = 0
 	for contents in favoriteContentInsert:

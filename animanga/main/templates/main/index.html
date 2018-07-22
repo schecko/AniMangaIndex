@@ -32,7 +32,7 @@
 
 		{% for content in contentList %}
 		<tr>
-			<td><a href="{% url 'content detail' content.id %"}>{{ content.title }}</a></td>
+			<td><a href="/content/{{ content.contentID }}">{{ content.title }}</a></td>
 			<td>{{ content.get_genre_display  }}</td>
 			<td>{{ content.complete }}</td>
 			<td>{{ content.rating }}</td>
