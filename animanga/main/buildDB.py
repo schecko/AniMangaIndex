@@ -12,11 +12,11 @@ def fillDB():
 	  # email      VARCHAR(255)
 	# );
 	# Inserting data into User table
-	userInsert = ['INSERT INTO main_user(userID,privileges,password,email) VALUES (0,0,123,"etonk@sfu.ca")',
-				'INSERT INTO main_user(userID,privileges,password,email) VALUES (1,1,123,"colinc@sfu.ca")',
-				'INSERT INTO main_user(userID,privileges,password,email) VALUES (2,1,123,"lindaj@sfu.ca")',
-				'INSERT INTO main_user(userID,privileges,password,email) VALUES (3,1,123,"scottc@sfu.ca")',
-				'INSERT INTO main_user(userID,privileges,password,email) VALUES (4,0,123,"test@sfu.ca")']
+	userInsert = ['INSERT INTO main_user(userID,privileges,password) VALUES ("eton",0,123)',
+				'INSERT INTO main_user(userID,privileges,password) VALUES ("colin" ,1,123)',
+				'INSERT INTO main_user(userID,privileges,password) VALUES ("linda" ,1,123)',
+				'INSERT INTO main_user(userID,privileges,password) VALUES ("scott" ,1,123',
+				'INSERT INTO main_user(userID,privileges,password) VALUES ("test"  ,0,123']
 	
 	i = 0
 	for contents in userInsert:

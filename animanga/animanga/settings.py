@@ -27,8 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = 'index'
-
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Application definition
 

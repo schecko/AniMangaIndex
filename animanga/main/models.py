@@ -3,10 +3,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from enum import Enum
 
 class User(models.Model):
-	userID = models.IntegerField(primary_key = True)
+	userID = models.CharField(max_length = 255, primary_key = True)
 	privileges = models.BooleanField()
 	password = models.CharField(max_length = 255)
-	email = models.CharField(max_length = 255)
 
 class Studio(models.Model):
 	name = models.CharField(primary_key = True, max_length = 255)

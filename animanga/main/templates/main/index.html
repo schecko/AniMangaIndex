@@ -1,5 +1,19 @@
 {% if contentList %}
 
+	{% if loggedIn == True %}
+
+	<form action="/login/" method="get">
+		<input type="submit" value="Login" />
+	</form>
+
+	{% else %}
+
+	<form action="/logout/" method="get">
+		<input type="submit" value="Logout" />
+	</form>
+
+	{% endif %}
+
 	{% if 0 %}
 	<ul>
 	{% for content in contentList %}

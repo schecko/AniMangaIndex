@@ -1,22 +1,94 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django import forms
+from django.db import connection
+
 from .models import *
 from .buildDB import *
 
+LOGIN_KEY = 'userID'
+
 class LoginForm(forms.Form):
-	userName = forms.CharField(label = 'User Name', max_length = 255)
+	userID = forms.CharField(label = 'UserName', max_length = 255)
 	password = forms.CharField(label = "Password", max_length = 255)
 
+def dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
+def dictfetchone(cursor):
+	try:
+		return dictfetchall(cursor)[0]
+	except IndexError:
+		return None
+    #columns = [col[0] for col in cursor.description]
+    #return dict(zip(columns, [cursor.fetchone()]))
+
+
+def login(request):
+	if request.method == 'POST':
+		form = LoginForm(request.POST)
+
+		if form.is_valid():
+			with connection.cursor() as cursor:
+				cursor.execute("select * from main_user where userID = %s", [form.data[LOGIN_KEY]])
+				user = dictfetchone(cursor)
+
+			if user:
+				# user does exist, check their password
+				b = form.data['password']
+				a = user['password']
+				if form.data['password'] == user['password']:
+					request.session[LOGIN_KEY] = form.data[LOGIN_KEY]
+					return HttpResponseRedirect('..')
+			else:
+				# user does not exist, create them silently
+				with connection.cursor() as cursor:
+					cursor.execute("insert into main_user(userID, privileges, password) values ( %s, 0, %s )", [form.data[LOGIN_KEY], form.data['password']])
+
+				# check that the new user was created, then send them back to the index.
+				if User.objects.get(pk = form.data[LOGIN_KEY]):
+					request.session[LOGIN_KEY] = form.data[LOGIN_KEY]
+					return HttpResponseRedirect('..')
+	else:
+		form = LoginForm()
+
+		return render(	request, 
+						'main/login.html',
+						{ 'form': form })
+
+def logout(request):
+	try:
+		del request.session[LOGIN_KEY]
+	except:
+		pass
+	return HttpResponseRedirect('..')
+
 def index(request):
+	try:
+		uid = request.session.get('userID')
+		user = User.objects.get(pk = uid)
+	except:
+		user = None
+
 	contentList = Content.objects.all()
 	if not contentList:
 		fillDB()
 
+	loggedIn = False
+	if request.session.get(LOGIN_KEY):
+		loggedIn = True
+
 	template = loader.get_template('main/index.html')
 	context = {
-		'contentList': contentList
+		'contentList': contentList,
+		'loggedIn': loggedIn,
+		#'userName': user.userName,
 	}
 	return HttpResponse(template.render(context, request))
 
