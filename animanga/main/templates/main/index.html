@@ -1,5 +1,19 @@
 {% if contentList %}
 
+	{% if loggedIn == False %}
+
+	<form action="/login/" method="get">
+		<input type="submit" value="Login" />
+	</form>
+
+	{% else %}
+
+	<form action="/logout/" method="get">
+		<input type="submit" value="Logout" />
+	</form>
+
+	{% endif %}
+
 	{% if 0 %}
 	<ul>
 	{% for content in contentList %}
@@ -18,7 +32,7 @@
 
 		{% for content in contentList %}
 		<tr>
-			<td><a href="{% url 'content detail' content.id %"}>{{ content.title }}</a></td>
+			<td><a href="/content/{{ content.contentID }}">{{ content.title }}</a></td>
 			<td>{{ content.get_genre_display  }}</td>
 			<td>{{ content.complete }}</td>
 			<td>{{ content.rating }}</td>
