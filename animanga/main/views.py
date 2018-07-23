@@ -206,3 +206,26 @@ def creatorDetail(request, creatorID):
 		'contentList': contentData
 	}
 	return HttpResponse(template.render(context, request))
+	
+def genreDetail(request):	
+	genre = str(request.GET.get('genre'))
+	template = loader.get_template('genre/genre.html')
+	#Check to see if the tables are filled before proceeding to query
+	contentList = Content.objects.all()
+	if not (contentList):
+		return HttpResponse("No content available")
+
+	# Queries
+	contentData = Content.objects.raw('SELECT * FROM main_content WHERE genre LIKE "%s"' % (genre))
+
+	# Checking the query result, set to 0 if nothing returned		
+	try:
+		contentData[0].contentID
+	except IndexError:
+		contentData = 0
+		
+	context = {
+		'contentGenre': genre,
+		'contentList': contentData
+	}
+	return HttpResponse(template.render(context, request))

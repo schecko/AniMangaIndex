@@ -1,0 +1,35 @@
+<p> Sort by Genre </p>
+<form action="/genre/">
+  <select name="genre">
+    <option value="Mystery">Mystery</option>
+    <option value="Drama">Drama</option>
+    <option value="SciFi">SciFi</option>
+    <option value="Action">Action</option>
+	<option value="Fantasy">Fantasy</option>
+    <option value="Comedy">Comedy</option>
+  </select>
+  <input type="submit" value="Submit">
+</form>
+
+<p> Current displaying genre: {{ contentGenre }}</p>
+
+{% if contentList %}
+	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
+		<tr>
+			<th>Title</th>
+			<th>Type</th>
+			<th>Complete</th>
+			<th>Rating</th>
+		</tr>
+
+		{% for content in contentList %}
+		<tr>
+			<td><a href="/content/{{ content.contentID }}">{{ content.title }}</a></td>
+			<td>{{ content.type }}</td>
+			<td>{{ content.complete }}</td>
+			<td>{{ content.rating }}</td>
+		</tr>
+		{% endfor %}
+{% else %}
+	<p> No content information available</p>
+{% endif %}
