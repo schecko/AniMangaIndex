@@ -216,7 +216,7 @@ def genreDetail(request, genreID):
 		return HttpResponse("No content available")
 	
 	# Queries
-	contentData = Content.objects.raw('SELECT * FROM main_content WHERE genre = %s' % genreID)
+	contentData = Content.objects.raw('SELECT * FROM main_content WHERE genre LIKE "Action"')
 
 	# Checking the query result, set to 0 if nothing returned		
 	try:
