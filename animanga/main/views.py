@@ -3,7 +3,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django import forms
 from django.db import connection
-# from django.core.validators import MaxValueValidator, MinValueValidator
 
 from .models import *
 from .buildDB import *
@@ -98,7 +97,7 @@ def changeRating(request, contentID):
 		form = RatingForm(request.POST)
 		newRating = int(request.POST.get('newRating'))
 		if form.is_valid():
-			if (newRating <= 11 and newRating >= 0):
+			if (newRating <= 10 and newRating >= 0):
 				cursor = connection.cursor()
 				cursor.execute("UPDATE main_content SET rating = %s WHERE contentID = %s" % (newRating, contentID))
 				result = cursor.fetchall()
