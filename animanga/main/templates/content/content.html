@@ -1,0 +1,39 @@
+{% if contentList %}
+	{% for content in contentList %}
+		<p> Title: {{content.title}}<br/>
+		<p> Type: {{content.type}}<br/>
+		<p> Complete: {{content.complete}}<br/>
+		<p> Genre: {{content.genre}}<br/>
+		{% if sourcetype %}
+			{% for source in sourcetype %}
+				<p> Made from (source): {{source.type}}</p>
+			{% endfor %}
+		{% else %}
+			<p> Made from (source): None</p>
+		{% endif %}
+		<p> Rating: {{content.rating}}</p>
+		<p> Disagree with the current rating? You can change it here: </p>
+		<form action="/content/{{ content.contentID }}/changeRating/" method="get">
+		<input type="submit" value="Change Rating" />
+		</form>
+	{% endfor %}
+{% else %}
+	<p> No content information available</p>
+{% endif %}
+
+{% if creatorList %}
+	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
+		<tr>
+			<th>Creators</th>
+			<th>Role</th>
+		</tr>
+
+		{% for creator in creatorList %}
+		<tr>
+			<td><a href="/creator/{{ creator.creatorID }}">{{ creator.name }}</a></td>
+			<td>{{ creator.role }}</td>
+		</tr>
+		{% endfor %}
+{% else %}
+	<p> No creator information available</p>
+{% endif %}

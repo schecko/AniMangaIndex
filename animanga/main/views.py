@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django import forms
 from django.db import connection
+# from django.core.validators import MaxValueValidator, MinValueValidator
 
 from .models import *
 from .buildDB import *
@@ -17,6 +18,9 @@ class LoginForm(forms.Form):
 	userID = forms.CharField(label = 'UserName', max_length = 255)
 	password = forms.CharField(label = "Password", max_length = 255)
 
+class RatingForm(forms.Form):
+	newRating = forms.IntegerField(label = 'Please enter new rating between 0 and 10')
+	
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
@@ -89,6 +93,25 @@ def logout(request):
 		pass
 	return HttpResponseRedirect('..')
 
+def changeRating(request, contentID):
+	if request.method == 'POST':
+		form = RatingForm(request.POST)
+		newRating = int(request.POST.get('newRating'))
+		if form.is_valid():
+			if (newRating <= 11 and newRating >= 0):
+				cursor = connection.cursor()
+				cursor.execute("UPDATE main_content SET rating = %s WHERE contentID = %s" % (newRating, contentID))
+				result = cursor.fetchall()
+
+				return HttpResponseRedirect('..')
+			
+			else:
+				form.add_error('newRating', 'invalid rating')
+				return render(request, 'content/changeRating.html', { 'form': form })
+	else:
+		form = RatingForm()
+		return render(request, 'content/changeRating.html', { 'form': form })
+
 def index(request):
 	try:
 		uid = request.session.get('userID')
@@ -116,25 +139,71 @@ def index(request):
 	return HttpResponse(template.render(context, request))
 
 def contentDetail(request, contentID):	
-
-	data = Content.objects.filter(contentID=contentID)
-	return HttpResponse("Content info for %s (contentID = %s)" % (data[0].title, contentID))
-
-def creatorDetail(request, creatorID):	
-	template = loader.get_template('creator/creator.html')
+	template = loader.get_template('content/content.html')
+	
+	#Check to see if the tables are filled before proceeding to query
 	contentList = Content.objects.all()
 	creatorList = Creator.objects.all()
 	createList = Create.objects.all()
 	if not (contentList or creatorList or createList):
 		return HttpResponse("No content available")
 		
+	# Queries
+	contentData = Content.objects.raw('SELECT * FROM main_content WHERE contentID = %s' % contentID)	
+	creatorData = Creator.objects.raw('SELECT * FROM main_create A, main_creator B WHERE A.creator_id = B.creatorID AND A.content_id = %s' % contentID)
+	sourceData = Content.objects.raw('SELECT A.contentID, B.contentID, B.type FROM main_content A, main_content B WHERE A.source_id = B.contentID AND A.contentID = %s' % contentID) 
+	
+	# Checking the query result, set to 0 if nothing returned
+	try:
+		contentData[0].contentID
+	except IndexError:
+		contentData = 0
+	
+	try:
+		creatorData[0].creatorID
+	except IndexError:
+		creatorData = 0
+	
+	try:
+		sourceData[0].type
+	except IndexError:
+		sourceData = 0
+		
+	context = {
+		'contentList': contentData,
+		'sourcetype': sourceData,
+		'creatorList': creatorData
+		
+	}
+	return HttpResponse(template.render(context, request))
+
+def creatorDetail(request, creatorID):	
+	template = loader.get_template('creator/creator.html')
+	
+	#Check to see if the tables are filled before proceeding to query
+	contentList = Content.objects.all()
+	creatorList = Creator.objects.all()
+	createList = Create.objects.all()
+	if not (contentList or creatorList or createList):
+		return HttpResponse("No content available")
+	
+	# Queries
 	creatorData = Creator.objects.raw('SELECT creatorID, name, gender, birthday FROM main_creator WHERE creatorID = %s' % creatorID)
 	contentData = Content.objects.raw('SELECT * FROM main_create A, main_content B WHERE A.content_id = B.contentID AND A.creator_id = %s' % creatorID)
 
+	# Checking the query result, set to 0 if nothing returned
+	try:
+		creatorData[0].creatorID
+	except IndexError:
+		creatorData = 0
+		
+	try:
+		contentData[0].contentID
+	except IndexError:
+		contentData = 0
+		
 	context = {
-		'creatorName': creatorData[0].name,
-		'creatorGender': "Female" if creatorData[0].gender else "Male",
-		'creatorBday': creatorData[0].birthday,
+		'creatorList': creatorData,
 		'contentList': contentData
 	}
 	return HttpResponse(template.render(context, request))

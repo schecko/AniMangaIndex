@@ -1,30 +1,14 @@
-{% if creatorName %}
-	<p> Name: {{creatorName}}</p>
+{% if creatorList %}
+	{% for creator in creatorList %}
+		<p> Name: {{creator.name}}</p>
+		<p> Gender: {{creator.gender}}</p>
+		<p> Birhtday: {{creator.birthday}}</p>
+	{% endfor %}
 {% else %}
-	<p> No content available</p>
-{% endif %}
-
-{% if creatorGender %}
-	<p> Gender: {{creatorGender}}</p>
-{% else %}
-	<p> No content available</p>
-{% endif %}
-
-{% if creatorBday %}
-	<p> Birhtday: {{creatorBday}}</p>
-{% else %}
-	<p> No content available</p>
+	<p> No creator information available</p>
 {% endif %}
 
 {% if contentList %}
-
-	{% if 0 %}
-	<ul>
-	{% for content in contentList %}
-		<li><a href "/content/{{ content.id }}/">{{ content.title }}</a></li>
-	{% endfor %}
-	<ul>
-	{% endif %}
 
 	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 		<tr>
@@ -47,5 +31,5 @@
 		</tr>
 		{% endfor %}
 {% else %}
-	<p> No content available</p>
+	<p> No content information available</p>
 {% endif %}
