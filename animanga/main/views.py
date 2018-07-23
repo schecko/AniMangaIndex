@@ -208,25 +208,16 @@ def creatorDetail(request, creatorID):
 	}
 	return HttpResponse(template.render(context, request))
 	
-def genreDetail(request, genreID):	
+def genreDetail(request):	
+	genre = str(request.GET.get('genre'))
 	template = loader.get_template('genre/genre.html')
 	#Check to see if the tables are filled before proceeding to query
 	contentList = Content.objects.all()
 	if not (contentList):
 		return HttpResponse("No content available")
-	
-	Genredict = {
-		0:"Mystery",
-		1:"Drama",
-		2:"SciFi",
-		3:"Action",
-		4:"Fantasy",
-		5:"Comedy"
-		}
-	
-	print (Genredict[genreID])
+
 	# Queries
-	contentData = Content.objects.raw('SELECT * FROM main_content WHERE genre LIKE "%s"' % str(Genredict[genreID]))
+	contentData = Content.objects.raw('SELECT * FROM main_content WHERE genre LIKE "%s"' % (genre))
 
 	# Checking the query result, set to 0 if nothing returned		
 	try:
@@ -235,6 +226,7 @@ def genreDetail(request, genreID):
 		contentData = 0
 		
 	context = {
+		'contentGenre': genre,
 		'contentList': contentData
 	}
 	return HttpResponse(template.render(context, request))
