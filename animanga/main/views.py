@@ -118,10 +118,31 @@ def index(request):
 		user = User.objects.get(pk = uid)
 	except:
 		user = None
-
-	contentList = Content.objects.all()
-	if not contentList:
+	
+	dbStatus = Content.objects.all()
+	if not dbStatus:
 		fillDB()
+	
+	contentData = 0
+	creatorData = 0
+		
+	viewall = str(request.GET.get('viewall'))
+	if viewall == "Content":
+		contentData = Content.objects.raw('SELECT * FROM main_content')
+		
+		# Checking the query result, set to 0 if nothing returned
+		try:
+			contentData[0].contentID
+		except IndexError:
+			contentData = 0
+	elif viewall == "Creator":
+		creatorData = Creator.objects.raw('SELECT * FROM main_creator')
+		
+		# Checking the query result, set to 0 if nothing returned
+		try:
+			creatorData[0].creatorID
+		except IndexError:
+			creatorData = 0
 
 	try:
 		logger.critical("key is %s " % request.session[LOGIN_KEY])
@@ -132,9 +153,9 @@ def index(request):
 
 	template = loader.get_template('main/index.html')
 	context = {
-		'contentList': contentList,
-		'loggedIn': loggedIn,
-		#'userName': user.userName,
+		'contentList': contentData,
+		'creatorList': creatorData,
+		'loggedIn': loggedIn
 	}
 	return HttpResponse(template.render(context, request))
 
