@@ -144,6 +144,33 @@ def index(request):
 		except IndexError:
 			creatorData = 0
 
+	operand = str(request.GET.get('operand'))
+	year = str(request.GET.get('year'))
+	if operand == "Bigger":
+		contentData = Content.objects.raw('SELECT * FROM main_content WHERE %s > date' % year)
+		
+		# Checking the query result, set to 0 if nothing returned
+		try:
+			contentData[0].contentID
+		except IndexError:
+			contentData = 0
+	elif operand == "Same":
+		contentData = Content.objects.raw('SELECT * FROM main_content WHERE %s = date' % year)
+		
+		# Checking the query result, set to 0 if nothing returned
+		try:
+			contentData[0].contentID
+		except IndexError:
+			contentData = 0
+	elif operand == "Smaller":
+		contentData = Content.objects.raw('SELECT * FROM main_content WHERE %s < date' % year)
+		
+		# Checking the query result, set to 0 if nothing returned
+		try:
+			contentData[0].contentID
+		except IndexError:
+			contentData = 0
+	
 	try:
 		logger.critical("key is %s " % request.session[LOGIN_KEY])
 		loggedIn = True

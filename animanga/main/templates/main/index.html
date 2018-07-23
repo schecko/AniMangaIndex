@@ -30,6 +30,34 @@
   <input type="submit" value="Submit">
 </form>
 
+<p> Find contents by age </p>
+<form action="">
+  <select name="operand">
+    <option value="Bigger">></option>
+    <option value="Same">=</option>
+	<option value="Smaller"><</option>
+  </select>
+  <SCRIPT LANGUAGE="JavaScript">
+
+	<!-- Note, this script is copied from a site, need to be removed or recoded
+	var time = new Date();
+	var year = time.getYear();
+	if (year < 1900) {
+	year = year + 1900;
+	}
+	var date = year - 49; /*change the '101' to the number of years in the past you want to show */
+	var future = year; /*change the '100' to the number of years in the future you want to show */ 
+	document.writeln ("<SELECT name='year'><OPTION value=\"\">Year");
+	do {
+	date++;
+	document.write ("<OPTION value=\"" +date+"\">" +date+ "");
+	}
+	while (date < future)
+	document.write ("</SELECT>");
+	</script>
+  <input type="submit" value="Submit">
+</form>
+
 
 {% if contentList %}
 	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
