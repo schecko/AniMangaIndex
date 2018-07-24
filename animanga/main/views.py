@@ -247,18 +247,18 @@ def selectionDetail(request):
 	}
 	return HttpResponse(template.render(context, request))
 
-def avgworkDetail(request):
-    avgworkData = None
+def contributorcountDetail(request):
+    contributorcountData = None
     cursor = connection.cursor()
-    template = loader.get_template('avgwork/avgwork.html')
+    template = loader.get_template('contributorcount/contributorcount.html')
 
  
    #Queries
-    cursor.execute('SELECT title, contentID, content_id, creator_id, AVG(creator_ID) avgcount FROM main_content A, main_create B WHERE contentID = content_id GROUP BY contentID')
-    avgworkData = dictfetchall(cursor)
+    cursor.execute('SELECT title, contentID, content_id, creator_id, COUNT(*) as avgcount FROM main_content A, main_create B WHERE contentID = content_id GROUP BY contentID')
+    contributorcountData = dictfetchall(cursor)
     
     context = {
-            'createList': avgworkData
+            'createList': contributorcountData
         }
     return HttpResponse(template.render(context, request))
 
