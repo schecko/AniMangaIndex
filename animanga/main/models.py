@@ -55,7 +55,7 @@ class FavoriteContent(models.Model):
 class Creator(models.Model):
 	creatorID = models.IntegerField(primary_key = True)
 	birthday = models.IntegerField()
-	gender = models.BooleanField()
+	gender = models.CharField(max_length = 255)
 	name = models.CharField(max_length = 255)
 
 class License(models.Model):
