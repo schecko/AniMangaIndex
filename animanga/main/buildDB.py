@@ -56,7 +56,13 @@ def fillDB():
 					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (2,"Anime","Sword Art Online",0,7,"2018","Fantasy",NULL)',
 					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (3,"Book","Fate/Zero",1,7,"2006","Action",NULL)',
 					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (4,"Manga","Fate/Zero",1,8,"2010","Action",3)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (5,"Anime","Fate/Zero",1,9,"2011","Action",4)']
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (5,"Anime","Fate/Zero",1,9,"2011","Action",4)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (6,"Manga","Colin Adventures 1",1,10,"2018","Action",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (7,"Manga","Colin Adventures 2",1,10,"2018","Mystery",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (8,"Manga","Colin Adventures 3",1,10,"2018","SciFi",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (9,"Manga","Colin Adventures 4",1,10,"2018","Drama",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (10,"Manga","Colin Adventures 5",1,10,"2018","Fantasy",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (11,"Manga","Colin Adventures 6",1,10,"2018","Comedy",NULL)']
 	i = 0
 	for contents in contentInsert:
 		cursor.execute(str(contentInsert[i]))
@@ -82,7 +88,9 @@ def fillDB():
 					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (9,"1972","male","Gen Urobuchi")',
 					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (10,"1973","male","Takashi Takeuchi")',
 					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (11,"1973","male","Ei Aoki")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (12,"1967","male","Akihiko Yoshida")']
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (12,"1967","male","Akihiko Yoshida")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (13, "1995","male","Colin Chan")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (14, "1994","female","Linda Jang")']
 	
 	i = 0
 	for contents in creatorInsert:
@@ -130,7 +138,11 @@ def fillDB():
 				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Ufotable",9)',
 				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Ufotable",10)',
 				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Ufotable",11)',
-				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Ufotable",12)']
+				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Ufotable",12)',
+				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Ufotable",14)',
+				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("White Fox",14)',
+				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio Pierrot",14)',
+				'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio 3Hz",14)']
 	
 	i = 0
 	for contents in hireInsert:
@@ -161,7 +173,13 @@ def fillDB():
 					'INSERT INTO main_create(content_id,creator_id,role) VALUES (5,9,"Author")',
 					'INSERT INTO main_create(content_id,creator_id,role) VALUES (3,10,"Artist")',
 					'INSERT INTO main_create(content_id,creator_id,role) VALUES (5,11,"Director")',
-					'INSERT INTO main_create(content_id,creator_id,role) VALUES (5,12,"Animator")']
+					'INSERT INTO main_create(content_id,creator_id,role) VALUES (5,12,"Animator")',
+					'INSERT INTO main_create(content_id,creator_id,role) VALUES (6,13,"Director")',
+					'INSERT INTO main_create(content_id,creator_id,role) VALUES (7,13,"Director")',
+					'INSERT INTO main_create(content_id,creator_id,role) VALUES (8,13,"Director")',
+					'INSERT INTO main_create(content_id,creator_id,role) VALUES (9,13,"Director")',
+					'INSERT INTO main_create(content_id,creator_id,role) VALUES (10,13,"Director")',
+					'INSERT INTO main_create(content_id,creator_id,role) VALUES (11,13,"Director")']
 	
 	i = 0
 	for contents in createInsert:

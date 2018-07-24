@@ -1,5 +1,10 @@
 <p> Create Works </p>
 
+<form action="/create/" method="get">
+  <input type="checkbox" name="division" value="division_query"> Creators who worked in every studio<br>
+  <input type="submit" value="Submit">
+</form>
+
 {% if createList %}
 	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 	<tr> 
@@ -14,4 +19,18 @@
 	{% endfor %}
 {% else %}
 	<p> No create information available</p>
+{% endif %}
+
+{% if allStudioList %}
+	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
+	<tr> 
+		<th> Creator Name </th>
+	</tr>
+	{% for creator in allStudioList %}
+	<tr>
+		<td><a href="/creator/{{ create.creatorID }}">{{ creator.name }}</a></td>
+	</tr>
+	{% endfor %}
+{% else %}
+	<p> No creator working in all studios available</p>
 {% endif %}

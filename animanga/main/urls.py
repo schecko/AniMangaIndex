@@ -13,4 +13,5 @@ urlpatterns = [
 	path('selection/', views.selectionDetail, name = 'selection detail'),
 	path('avgwork/', views.avgworkDetail, name = 'avgwork detail'),
 	path('create/', views.createDetail, name = 'create detail'),
+        path('create/allGenres/', views.createDetail, name = 'create all genres detail'),
 ]
