@@ -9,7 +9,7 @@ class User(models.Model):
 
 class Studio(models.Model):
 	name = models.CharField(primary_key = True, max_length = 255)
-	founded = models.DateField()
+	founded = models.IntegerField()
 
 class Content(models.Model):
 	contentID = models.IntegerField(primary_key = True)
@@ -23,7 +23,7 @@ class Content(models.Model):
 	title = models.CharField(max_length = 255)
 	complete = models.BooleanField()
 	rating = models.IntegerField(validators = [MaxValueValidator(5), MinValueValidator(0)])
-	date = models.DateField()
+	date = models.IntegerField()
 
 	class Genre(Enum):
 		Mystery = 0
@@ -54,7 +54,7 @@ class FavoriteContent(models.Model):
 
 class Creator(models.Model):
 	creatorID = models.IntegerField(primary_key = True)
-	birthday = models.DateField()
+	birthday = models.IntegerField()
 	gender = models.BooleanField()
 	name = models.CharField(max_length = 255)
 

@@ -9,10 +9,15 @@
 {% endif %}
 
 {% if contentList %}
-
 	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 		<tr>
-			<th>Title</th>
+			{% if countContent %}
+				{% for count in countContent %}
+					<th>Title ({{count.number}})</th>
+				{% endfor %}
+			{% else %}
+				<th>Title</th>
+			{% endif %}
 			<th>Type</th>
 			<th>Role</th>
 			<th>Genre</th>
@@ -25,11 +30,9 @@
 			<td><a href="/content/{{ content.contentID }}">{{ content.title }}</a></td>
 			<td>{{ content.type }}</td>
 			<td>{{ content.role }}</td>
-			<td>{{ content.get_genre_display  }}</td>
+			<td>{{ content.genre  }}</td>
 			<td>{{ content.complete }}</td>
 			<td>{{ content.rating }}</td>
 		</tr>
 		{% endfor %}
-{% else %}
-	<p> No content information available</p>
 {% endif %}

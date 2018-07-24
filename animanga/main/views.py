@@ -17,9 +17,6 @@ class LoginForm(forms.Form):
 	userID = forms.CharField(label = 'UserName', max_length = 255)
 	password = forms.CharField(label = "Password", max_length = 255)
 
-class RatingForm(forms.Form):
-	newRating = forms.IntegerField(label = 'Please enter new rating between 0 and 10')
-	
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
@@ -33,9 +30,6 @@ def dictfetchone(cursor):
 		return dictfetchall(cursor)[0]
 	except IndexError:
 		return None
-    #columns = [col[0] for col in cursor.description]
-    #return dict(zip(columns, [cursor.fetchone()]))
-
 
 def login(request):
 	if request.method == 'POST':
@@ -92,34 +86,16 @@ def logout(request):
 		pass
 	return HttpResponseRedirect('..')
 
-def changeRating(request, contentID):
-	if request.method == 'POST':
-		form = RatingForm(request.POST)
-		newRating = int(request.POST.get('newRating'))
-		if form.is_valid():
-			if (newRating <= 10 and newRating >= 0):
-				cursor = connection.cursor()
-				cursor.execute("UPDATE main_content SET rating = %s WHERE contentID = %s" % (newRating, contentID))
-				result = cursor.fetchall()
-
-				return HttpResponseRedirect('..')
-			
-			else:
-				form.add_error('newRating', 'invalid rating')
-				return render(request, 'content/changeRating.html', { 'form': form })
-	else:
-		form = RatingForm()
-		return render(request, 'content/changeRating.html', { 'form': form })
-
 def index(request):
+	cursor = connection.cursor()
 	try:
 		uid = request.session.get('userID')
 		user = User.objects.get(pk = uid)
 	except:
 		user = None
 
-	contentList = Content.objects.all()
-	if not contentList:
+	contentData = Content.objects.all()
+	if not contentData:
 		fillDB()
 
 	try:
@@ -131,101 +107,142 @@ def index(request):
 
 	template = loader.get_template('main/index.html')
 	context = {
-		'contentList': contentList,
-		'loggedIn': loggedIn,
-		#'userName': user.userName,
+		'contentList': contentData,
+		'loggedIn': loggedIn
 	}
 	return HttpResponse(template.render(context, request))
 
-def contentDetail(request, contentID):	
+def contentDetail(request, contentID):
+	cursor = connection.cursor()
 	template = loader.get_template('content/content.html')
-	
-	#Check to see if the tables are filled before proceeding to query
-	contentList = Content.objects.all()
-	creatorList = Creator.objects.all()
-	createList = Create.objects.all()
-	if not (contentList or creatorList or createList):
-		return HttpResponse("No content available")
-		
+
+	newRating = request.GET.get('rating')
+	if newRating != None:
+		cursor.execute('UPDATE main_content SET rating = %s WHERE contentID = %s' % (newRating, contentID))
+
 	# Queries
-	contentData = Content.objects.raw('SELECT * FROM main_content WHERE contentID = %s' % contentID)	
-	creatorData = Creator.objects.raw('SELECT * FROM main_create A, main_creator B WHERE A.creator_id = B.creatorID AND A.content_id = %s' % contentID)
-	sourceData = Content.objects.raw('SELECT A.contentID, B.contentID, B.type FROM main_content A, main_content B WHERE A.source_id = B.contentID AND A.contentID = %s' % contentID) 
-	
-	# Checking the query result, set to 0 if nothing returned
-	try:
-		contentData[0].contentID
-	except IndexError:
-		contentData = 0
-	
-	try:
-		creatorData[0].creatorID
-	except IndexError:
-		creatorData = 0
-	
-	try:
-		sourceData[0].type
-	except IndexError:
-		sourceData = 0
-		
+	cursor.execute('SELECT * FROM main_content WHERE contentID = %s' % contentID)
+	contentData = dictfetchall(cursor)
+
+	cursor.execute('SELECT * FROM main_create A, main_creator B WHERE A.creator_id = B.creatorID AND A.content_id = %s' % contentID)
+	creatorData = dictfetchall(cursor)
+
+	cursor.execute('SELECT count(*) number FROM main_create A, main_creator B WHERE A.creator_id = B.creatorID AND A.content_id = %s' % contentID)
+	countCreatorData = dictfetchall(cursor)
+
+	cursor.execute('SELECT A.contentID, B.contentID, B.type FROM main_content A, main_content B WHERE A.source_id = B.contentID AND A.contentID = %s' % contentID) 
+	sourceData = dictfetchall(cursor)
+
 	context = {
 		'contentList': contentData,
 		'sourcetype': sourceData,
-		'creatorList': creatorData
-		
+		'creatorList': creatorData,
+		'countCreator': countCreatorData
 	}
 	return HttpResponse(template.render(context, request))
 
-def creatorDetail(request, creatorID):	
+def creatorDetail(request, creatorID):
+	cursor = connection.cursor()	
 	template = loader.get_template('creator/creator.html')
-	
-	#Check to see if the tables are filled before proceeding to query
-	contentList = Content.objects.all()
-	creatorList = Creator.objects.all()
-	createList = Create.objects.all()
-	if not (contentList or creatorList or createList):
-		return HttpResponse("No content available")
-	
-	# Queries
-	creatorData = Creator.objects.raw('SELECT creatorID, name, gender, birthday FROM main_creator WHERE creatorID = %s' % creatorID)
-	contentData = Content.objects.raw('SELECT * FROM main_create A, main_content B WHERE A.content_id = B.contentID AND A.creator_id = %s' % creatorID)
 
-	# Checking the query result, set to 0 if nothing returned
-	try:
-		creatorData[0].creatorID
-	except IndexError:
-		creatorData = 0
-		
-	try:
-		contentData[0].contentID
-	except IndexError:
-		contentData = 0
-		
+	# Queries
+	cursor.execute('SELECT creatorID, name, gender, birthday FROM main_creator WHERE creatorID = %s' % creatorID)
+	creatorData = dictfetchall(cursor)
+
+	cursor.execute('SELECT * FROM main_create A, main_content B WHERE A.content_id = B.contentID AND A.creator_id = %s' % creatorID)
+	contentData = dictfetchall(cursor)
+
+	cursor.execute('SELECT count(*) number FROM main_create A, main_content B WHERE A.content_id = B.contentID AND A.creator_id = %s' % creatorID)
+	countContentData = dictfetchall(cursor)
+
 	context = {
 		'creatorList': creatorData,
-		'contentList': contentData
+		'contentList': contentData,
+		'countContent': countContentData
 	}
 	return HttpResponse(template.render(context, request))
-	
-def genreDetail(request):	
+
+def genreDetail(request):
+	cursor = connection.cursor()
 	genre = str(request.GET.get('genre'))
 	template = loader.get_template('genre/genre.html')
-	#Check to see if the tables are filled before proceeding to query
-	contentList = Content.objects.all()
-	if not (contentList):
-		return HttpResponse("No content available")
 
 	# Queries
-	contentData = Content.objects.raw('SELECT * FROM main_content WHERE genre LIKE "%s"' % (genre))
+	cursor.execute('SELECT * FROM main_content WHERE genre LIKE "%s"' % (genre))
+	contentData = dictfetchall(cursor)
 
-	# Checking the query result, set to 0 if nothing returned		
-	try:
-		contentData[0].contentID
-	except IndexError:
-		contentData = 0
-		
+	cursor.execute('SELECT count(*) temp FROM main_content WHERE genre LIKE "%s"' % (genre))
+	countContentData = dictfetchall(cursor)
+
 	context = {
 		'contentGenre': genre,
-		'contentList': contentData
+		'contentList': contentData,
+		'countContent': countContentData
+	}
+	return HttpResponse(template.render(context, request))
+
+def projectionDetail(request):
+	contentData = None
+	creatorData = None
+	count = None
+	cursor = connection.cursor()
+	template = loader.get_template('main/projection.html')
+
+	viewall = str(request.GET.get('viewall'))
+	if viewall == "Content":
+		cursor.execute('SELECT contentID, title, genre, complete, rating FROM main_content')
+		contentData = dictfetchall(cursor)
+
+		cursor.execute('SELECT count(*) number FROM main_content')
+		count = dictfetchall(cursor)
+		
+	elif viewall == "Creator":
+		cursor.execute('SELECT creatorID, name FROM main_creator')
+		creatorData = dictfetchall(cursor)
+
+		cursor.execute('SELECT count(*) number FROM main_creator')
+		count = dictfetchall(cursor)
+		
+	context = {
+		'contentList': contentData,
+		'creatorList': creatorData,
+		'count': count
+	}
+	return HttpResponse(template.render(context, request))
+
+def selectionDetail(request):
+	contentData = None
+	count = None
+	cursor = connection.cursor()
+	template = loader.get_template('main/selection.html')
+
+	operand = str(request.GET.get('operand'))
+	year = request.GET.get('year')
+	if operand == "before":
+		cursor.execute('SELECT * FROM main_content WHERE %s > date' % year)
+		contentData = dictfetchall(cursor)
+		
+		cursor.execute('SELECT count(*) number FROM main_content WHERE %s > date' % year)
+		count = dictfetchall(cursor)
+		
+	elif operand == "on":
+		cursor.execute('SELECT * FROM main_content WHERE %s = date' % year)
+		contentData = dictfetchall(cursor)
+		
+		cursor.execute('SELECT count(*) number FROM main_content WHERE %s = date' % year)
+		count = dictfetchall(cursor)
+		
+	elif operand == "after":
+		cursor.execute('SELECT * FROM main_content WHERE %s < date' % year)	
+		contentData = dictfetchall(cursor)	
+		
+		cursor.execute('SELECT count(*) number FROM main_content WHERE %s < date' % year)
+		count = dictfetchall(cursor)
+
+	context = {
+		'contentList': contentData,
+		'displayingOperand': operand,
+		'displayingYear': year,
+		'count': count
 	}
 	return HttpResponse(template.render(context, request))

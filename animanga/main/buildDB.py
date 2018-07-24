@@ -27,10 +27,10 @@ def fillDB():
 	  # founded DATE
 	# );
 	# Inserting data into Studio table	
-	studioInsert = ['INSERT INTO main_studio(name,founded) VALUES ("White Fox","2007-01-01")',
-					'INSERT INTO main_studio(name,founded) VALUES ("Studio Pierrot","1979-01-01")',
-					'INSERT INTO main_studio(name,founded) VALUES ("Studio 3Hz","2013-01-01")',
-					'INSERT INTO main_studio(name,founded) VALUES ("Ufotable","1997-01-01")']
+	studioInsert = ['INSERT INTO main_studio(name,founded) VALUES ("White Fox","2007")',
+					'INSERT INTO main_studio(name,founded) VALUES ("Studio Pierrot","1979")',
+					'INSERT INTO main_studio(name,founded) VALUES ("Studio 3Hz","2013")',
+					'INSERT INTO main_studio(name,founded) VALUES ("Ufotable","1997")']
 	
 	i = 0
 	for contents in studioInsert:
@@ -51,12 +51,12 @@ def fillDB():
 	# );
 	# Inserting data into Content table
 	# Note: foreign keys in django automatically get appended with _id after the variable name
-	contentInsert = ['INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (0,"Anime","Steins;Gate",1,9,"2018-04-12","Mystery",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (1,"Anime","Tokyo Ghoul",1,7,"2018-04-03","Action",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (2,"Anime","Sword Art Online",0,7,"2018-04-08","Fantasy",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (3,"Book","Fate/Zero",1,7,"2006-12-29","Action",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (4,"Manga","Fate/Zero",1,8,"2010-12-29","Action",3)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (5,"Anime","Fate/Zero",1,9,"2011-10-01","Action",4)']
+	contentInsert = ['INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (0,"Anime","Steins;Gate",1,9,"2018","Mystery",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (1,"Anime","Tokyo Ghoul",1,7,"2018","Action",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (2,"Anime","Sword Art Online",0,7,"2018","Fantasy",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (3,"Book","Fate/Zero",1,7,"2006","Action",NULL)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (4,"Manga","Fate/Zero",1,8,"2010","Action",3)',
+					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (5,"Anime","Fate/Zero",1,9,"2011","Action",4)']
 	i = 0
 	for contents in contentInsert:
 		cursor.execute(str(contentInsert[i]))
@@ -70,19 +70,19 @@ def fillDB():
 	  # name      VARCHAR(255)
 	# );
 	# Inserting data into Creator table	
-	creatorInsert = ['INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (0,"1971-01-02",0,"Kenichi Kawamura")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (1,"1969-01-01",0,"Jukki Hanada")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (2,"1970-07-03",0,"Chiyomaru Shikura")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (3,"1985-12-28",0,"Sui Ishida")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (4,"1978-06-22",0,"Shuhei Morita")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (5,"1980-07-24",0,"Chuji Mikasano")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (6,"1974-06-29",0,"Masayuki Sakoi")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (7,"1972-01-01",0,"Keiichi Sigsawa")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (8,"1968-03-29",0,"Yosuke Kuroda")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (9,"1972-12-20",0,"Gen Urobuchi")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (10,"1973-08-28",0,"Takashi Takeuchi")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (11,"1973-01-20",0,"Ei Aoki")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (12,"1967-02-15",0,"Akihiko Yoshida")']
+	creatorInsert = ['INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (0,"1971",0,"Kenichi Kawamura")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (1,"1969",0,"Jukki Hanada")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (2,"1970",0,"Chiyomaru Shikura")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (3,"1985",0,"Sui Ishida")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (4,"1978",0,"Shuhei Morita")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (5,"1980",0,"Chuji Mikasano")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (6,"1974",0,"Masayuki Sakoi")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (7,"1972",0,"Keiichi Sigsawa")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (8,"1968",0,"Yosuke Kuroda")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (9,"1972",0,"Gen Urobuchi")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (10,"1973",0,"Takashi Takeuchi")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (11,"1973",0,"Ei Aoki")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (12,"1967",0,"Akihiko Yoshida")']
 	
 	i = 0
 	for contents in creatorInsert:
