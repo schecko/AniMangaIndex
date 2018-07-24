@@ -246,3 +246,27 @@ def selectionDetail(request):
 		'count': count
 	}
 	return HttpResponse(template.render(context, request))
+
+def avgworkDetail(request):
+    template = loader.get_template('avgwork/avgwork.html')
+
+    createList = Create.objects.all()
+    if not (createList):
+       return HttpResponse("No content available")
+ 
+   #Queries
+    avgworkData = Create.objects.raw("""SELECT DISTINCT main_content.title, main_content.contentID, 
+	main_create.content_id, main_create.creator_id, AVG(main_create.content_id) as avgcount
+	FROM main_content, main_create
+	WHERE main_content.contentID = main_create.content_id
+	GROUP BY main_create.creator_id""")
+
+    try:
+        avgworkData[0].creator_id
+    except IndexError:
+        avgworkData = 0
+    
+    context = {
+            'createList': avgworkData
+        }
+    return HttpResponse(template.render(context, request))

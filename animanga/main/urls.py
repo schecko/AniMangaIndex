@@ -11,4 +11,5 @@ urlpatterns = [
 	path('genre/', views.genreDetail, name = 'genre detail'),
 	path('projection/', views.projectionDetail, name = 'projection detail'),
 	path('selection/', views.selectionDetail, name = 'selection detail'),
+	path('avgwork/', views.avgworkDetail, name = 'avgwork detail'),
 ]

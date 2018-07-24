@@ -87,7 +87,8 @@ class Create(models.Model):
 								on_delete = models.CASCADE)
 	creator = models.ForeignKey(Creator,
 								unique = False,
-								on_delete = models.DO_NOTHING)
+								on_delete = models.DO_NOTHING,
+								primary_key = True)
 
 	class Meta:
 		unique_together = (( "content", "creator"), )

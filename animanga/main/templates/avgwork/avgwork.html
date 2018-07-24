@@ -1,0 +1,17 @@
+<p> Average Creator Per Content </p>
+
+{% if createList %}
+	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
+	<tr> 
+		<th> Content Title </th>
+		<th> Average Number of Creators </th>
+	</tr>
+	{% for create in createList %}
+	<tr>
+		<td>{{create.title}}</td>
+		<td>{{create.avgcount}}</td>
+	</tr>
+	{% endfor %}
+{% else %}
+	<p> No create information available</p>
+{% endif %}
