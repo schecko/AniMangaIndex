@@ -8,7 +8,7 @@
 	</tr>
 	{% for create in createList %}
 	<tr>
-		<td>{{create.name}}</td>
+		<td><a href="/creator/{{ create.creatorID }}">{{ create.name }}</a></td>
 		<td>{{create.count}}</td>
 	</tr>
 	{% endfor %}
