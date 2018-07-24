@@ -17,6 +17,7 @@
 			{% else %}
 				<th>Title</th>
 			{% endif %}
+            <th>Date</th>
 			<th>Type</th>
 			<th>Complete</th>
 			<th>Rating</th>
@@ -25,6 +26,7 @@
 		{% for content in contentList %}
 		<tr>
 			<td><a href="/content/{{ content.contentID }}">{{ content.title }}</a></td>
+			<td>{{ content.date }}</td>
 			<td>{{ content.type }}</td>
 			<td>{{ content.complete }}</td>
 			<td>{{ content.rating }}</td>
@@ -42,11 +44,12 @@
 			{% else %}
 				<th>Creators</th>
 			{% endif %}
+			<th>Number of Works</th>
 		</tr>
-
 		{% for creator in creatorList %}
 		<tr>
 			<td><a href="/creator/{{ creator.creatorID }}">{{ creator.name }}</a></td>
+            <td>{{ creator.numberofworks }}</td>
 		</tr>
 		{% endfor %}
 {% endif %}

@@ -70,19 +70,19 @@ def fillDB():
 	  # name      VARCHAR(255)
 	# );
 	# Inserting data into Creator table	
-	creatorInsert = ['INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (0,"1971",0,"Kenichi Kawamura")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (1,"1969",0,"Jukki Hanada")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (2,"1970",0,"Chiyomaru Shikura")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (3,"1985",0,"Sui Ishida")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (4,"1978",0,"Shuhei Morita")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (5,"1980",0,"Chuji Mikasano")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (6,"1974",0,"Masayuki Sakoi")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (7,"1972",0,"Keiichi Sigsawa")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (8,"1968",0,"Yosuke Kuroda")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (9,"1972",0,"Gen Urobuchi")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (10,"1973",0,"Takashi Takeuchi")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (11,"1973",0,"Ei Aoki")',
-					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (12,"1967",0,"Akihiko Yoshida")']
+	creatorInsert = ['INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (0,"1971","male","Kenichi Kawamura")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (1,"1969","male","Jukki Hanada")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (2,"1970","male","Chiyomaru Shikura")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (3,"1985","male","Sui Ishida")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (4,"1978","male","Shuhei Morita")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (5,"1980","male","Chuji Mikasano")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (6,"1974","male","Masayuki Sakoi")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (7,"1972","male","Keiichi Sigsawa")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (8,"1968","male","Yosuke Kuroda")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (9,"1972","male","Gen Urobuchi")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (10,"1973","male","Takashi Takeuchi")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (11,"1973","male","Ei Aoki")',
+					'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (12,"1967","male","Akihiko Yoshida")']
 	
 	i = 0
 	for contents in creatorInsert:

@@ -190,19 +190,19 @@ def projectionDetail(request):
 
 	viewall = str(request.GET.get('viewall'))
 	if viewall == "Content":
-		cursor.execute('SELECT contentID, title, genre, complete, rating FROM main_content')
+		cursor.execute('SELECT * FROM main_content')
 		contentData = dictfetchall(cursor)
 
 		cursor.execute('SELECT count(*) number FROM main_content')
 		count = dictfetchall(cursor)
-		
+
 	elif viewall == "Creator":
-		cursor.execute('SELECT creatorID, name FROM main_creator')
+		cursor.execute('SELECT creatorID, name, count(*) numberofworks FROM main_creator A, main_create B WHERE B.creator_id = A.creatorID GROUP BY creatorID')
 		creatorData = dictfetchall(cursor)
 
 		cursor.execute('SELECT count(*) number FROM main_creator')
 		count = dictfetchall(cursor)
-		
+
 	context = {
 		'contentList': contentData,
 		'creatorList': creatorData,
@@ -221,21 +221,21 @@ def selectionDetail(request):
 	if operand == "before":
 		cursor.execute('SELECT * FROM main_content WHERE %s > date' % year)
 		contentData = dictfetchall(cursor)
-		
+
 		cursor.execute('SELECT count(*) number FROM main_content WHERE %s > date' % year)
 		count = dictfetchall(cursor)
-		
+
 	elif operand == "on":
 		cursor.execute('SELECT * FROM main_content WHERE %s = date' % year)
 		contentData = dictfetchall(cursor)
-		
+
 		cursor.execute('SELECT count(*) number FROM main_content WHERE %s = date' % year)
 		count = dictfetchall(cursor)
-		
+
 	elif operand == "after":
 		cursor.execute('SELECT * FROM main_content WHERE %s < date' % year)	
 		contentData = dictfetchall(cursor)	
-		
+
 		cursor.execute('SELECT count(*) number FROM main_content WHERE %s < date' % year)
 		count = dictfetchall(cursor)
 
