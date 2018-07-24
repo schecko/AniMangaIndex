@@ -234,7 +234,7 @@ def selectionDetail(request):
 
 	elif operand == "after":
 		cursor.execute('SELECT * FROM main_content WHERE %s < date' % year)	
-		contentData = dictfetchall(cursor)	
+		contentData = dictfetchall(cursor)
 
 		cursor.execute('SELECT count(*) number FROM main_content WHERE %s < date' % year)
 		count = dictfetchall(cursor)
@@ -244,5 +244,19 @@ def selectionDetail(request):
 		'displayingOperand': operand,
 		'displayingYear': year,
 		'count': count
+	}
+	return HttpResponse(template.render(context, request))
+
+def createDetail(request):
+	createData = None
+	cursor = connection.cursor()
+	template = loader.get_template('create/create.html')
+
+	#Queries
+	cursor.execute('SELECT creatorID, name, count(*) count FROM main_creator A, main_create B WHERE B.creator_id = A.creatorID GROUP BY creatorID')
+	createData = dictfetchall(cursor)
+
+	context = {
+		'createList': createData
 	}
 	return HttpResponse(template.render(context, request))
