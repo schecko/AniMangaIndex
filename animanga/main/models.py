@@ -32,6 +32,7 @@ class Content(models.Model):
 		Action = 3
 		Fantasy = 4
 		Comedy = 5
+		Mecha = 6
 
 	genre = models.IntegerField(choices = [ (tag.value, tag.name) for tag in Genre ])
 	source = models.ForeignKey(  'self', 
