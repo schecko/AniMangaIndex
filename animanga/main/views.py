@@ -190,7 +190,7 @@ def projectionDetail(request):
 
 	viewall = str(request.GET.get('viewall'))
 	if viewall == "Content":
-		cursor.execute('SELECT * FROM main_content')
+		cursor.execute('SELECT contentID, title, date, type, complete, rating FROM main_content')
 		contentData = dictfetchall(cursor)
 
 		cursor.execute('SELECT count(*) number FROM main_content')
@@ -247,18 +247,18 @@ def selectionDetail(request):
 	}
 	return HttpResponse(template.render(context, request))
 
-def avgworkDetail(request):
-    avgworkData = None
+def contributorcountDetail(request):
+    contributorcountData = None
     cursor = connection.cursor()
-    template = loader.get_template('avgwork/avgwork.html')
+    template = loader.get_template('contributorcount/contributorcount.html')
 
  
    #Queries
-    cursor.execute('SELECT title, contentID, content_id, creator_id, AVG(creator_ID) avgcount FROM main_content A, main_create B WHERE contentID = content_id GROUP BY contentID')
-    avgworkData = dictfetchall(cursor)
+    cursor.execute('SELECT title, contentID, content_id, creator_id, COUNT(*) as avgcount FROM main_content A, main_create B WHERE contentID = content_id GROUP BY contentID')
+    contributorcountData = dictfetchall(cursor)
     
     context = {
-            'createList': avgworkData
+            'createList': contributorcountData
         }
     return HttpResponse(template.render(context, request))
 
