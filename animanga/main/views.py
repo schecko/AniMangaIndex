@@ -190,7 +190,7 @@ def projectionDetail(request):
 
 	viewall = str(request.GET.get('viewall'))
 	if viewall == "Content":
-		cursor.execute('SELECT * FROM main_content')
+		cursor.execute('SELECT contentID, title, date, type, complete, rating FROM main_content')
 		contentData = dictfetchall(cursor)
 
 		cursor.execute('SELECT count(*) number FROM main_content')
