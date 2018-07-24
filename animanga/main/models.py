@@ -109,4 +109,3 @@ class VolumeSeason(models.Model):
 
 	class Meta:
 		unique_together = (( "contentID", "num"), )
-	
