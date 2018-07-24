@@ -47,7 +47,6 @@
 			{% endif %}
 			<th>Role</th>
 		</tr>
-
 		{% for creator in creatorList %}
 		<tr>
 			<td><a href="/creator/{{ creator.creatorID }}">{{ creator.name }}</a></td>
@@ -57,4 +56,3 @@
 {% else %}
 	<p> No creator information available</p>
 {% endif %}
-

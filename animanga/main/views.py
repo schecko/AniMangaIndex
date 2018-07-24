@@ -16,7 +16,7 @@ LOGIN_KEY = 'userID'
 class LoginForm(forms.Form):
 	userID = forms.CharField(label = 'UserName', max_length = 255)
 	password = forms.CharField(label = "Password", max_length = 255)
-	
+
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
@@ -87,17 +87,17 @@ def logout(request):
 	return HttpResponseRedirect('..')
 
 def index(request):
-	cursor = connection.cursor()	
+	cursor = connection.cursor()
 	try:
 		uid = request.session.get('userID')
 		user = User.objects.get(pk = uid)
 	except:
 		user = None
-	
+
 	contentData = Content.objects.all()
 	if not contentData:
 		fillDB()
-	
+
 	try:
 		logger.critical("key is %s " % request.session[LOGIN_KEY])
 		loggedIn = True
@@ -115,24 +115,24 @@ def index(request):
 def contentDetail(request, contentID):
 	cursor = connection.cursor()
 	template = loader.get_template('content/content.html')
-	
+
 	newRating = request.GET.get('rating')
 	if newRating != None:
 		cursor.execute('UPDATE main_content SET rating = %s WHERE contentID = %s' % (newRating, contentID))
-		
+
 	# Queries
-	cursor.execute('SELECT * FROM main_content WHERE contentID = %s' % contentID)	
+	cursor.execute('SELECT * FROM main_content WHERE contentID = %s' % contentID)
 	contentData = dictfetchall(cursor)
-	
+
 	cursor.execute('SELECT * FROM main_create A, main_creator B WHERE A.creator_id = B.creatorID AND A.content_id = %s' % contentID)
 	creatorData = dictfetchall(cursor)
-	
+
 	cursor.execute('SELECT count(*) number FROM main_create A, main_creator B WHERE A.creator_id = B.creatorID AND A.content_id = %s' % contentID)
 	countCreatorData = dictfetchall(cursor)
-	
+
 	cursor.execute('SELECT A.contentID, B.contentID, B.type FROM main_content A, main_content B WHERE A.source_id = B.contentID AND A.contentID = %s' % contentID) 
 	sourceData = dictfetchall(cursor)
-		
+
 	context = {
 		'contentList': contentData,
 		'sourcetype': sourceData,
@@ -144,24 +144,24 @@ def contentDetail(request, contentID):
 def creatorDetail(request, creatorID):
 	cursor = connection.cursor()	
 	template = loader.get_template('creator/creator.html')
-		
+
 	# Queries
 	cursor.execute('SELECT creatorID, name, gender, birthday FROM main_creator WHERE creatorID = %s' % creatorID)
 	creatorData = dictfetchall(cursor)
-	
+
 	cursor.execute('SELECT * FROM main_create A, main_content B WHERE A.content_id = B.contentID AND A.creator_id = %s' % creatorID)
 	contentData = dictfetchall(cursor)
 
 	cursor.execute('SELECT count(*) number FROM main_create A, main_content B WHERE A.content_id = B.contentID AND A.creator_id = %s' % creatorID)
 	countContentData = dictfetchall(cursor)
-	
+
 	context = {
 		'creatorList': creatorData,
 		'contentList': contentData,
 		'countContent': countContentData
 	}
 	return HttpResponse(template.render(context, request))
-	
+
 def genreDetail(request):
 	cursor = connection.cursor()
 	genre = str(request.GET.get('genre'))
@@ -170,17 +170,17 @@ def genreDetail(request):
 	# Queries
 	cursor.execute('SELECT * FROM main_content WHERE genre LIKE "%s"' % (genre))
 	contentData = dictfetchall(cursor)
-	
+
 	cursor.execute('SELECT count(*) temp FROM main_content WHERE genre LIKE "%s"' % (genre))
 	countContentData = dictfetchall(cursor)
-	
+
 	context = {
 		'contentGenre': genre,
 		'contentList': contentData,
 		'countContent': countContentData
 	}
 	return HttpResponse(template.render(context, request))
-	
+
 def projectionDetail(request):
 	contentData = None
 	creatorData = None
@@ -190,17 +190,17 @@ def projectionDetail(request):
 
 	viewall = str(request.GET.get('viewall'))
 	if viewall == "Content":
-		cursor.execute('SELECT contentID, title, genre, complete, rating FROM main_content')	
+		cursor.execute('SELECT contentID, title, genre, complete, rating FROM main_content')
 		contentData = dictfetchall(cursor)
-		
-		cursor.execute('SELECT count(*) number FROM main_content')	
+
+		cursor.execute('SELECT count(*) number FROM main_content')
 		count = dictfetchall(cursor)
 		
 	elif viewall == "Creator":
 		cursor.execute('SELECT creatorID, name FROM main_creator')
 		creatorData = dictfetchall(cursor)
-	
-		cursor.execute('SELECT count(*) number FROM main_creator')	
+
+		cursor.execute('SELECT count(*) number FROM main_creator')
 		count = dictfetchall(cursor)
 		
 	context = {
@@ -209,7 +209,7 @@ def projectionDetail(request):
 		'count': count
 	}
 	return HttpResponse(template.render(context, request))
-	
+
 def selectionDetail(request):
 	contentData = None
 	count = None
@@ -219,10 +219,10 @@ def selectionDetail(request):
 	operand = str(request.GET.get('operand'))
 	year = request.GET.get('year')
 	if operand == "before":
-		cursor.execute('SELECT * FROM main_content WHERE %s > date' % year)	
+		cursor.execute('SELECT * FROM main_content WHERE %s > date' % year)
 		contentData = dictfetchall(cursor)
 		
-		cursor.execute('SELECT count(*) number FROM main_content WHERE %s > date' % year)		
+		cursor.execute('SELECT count(*) number FROM main_content WHERE %s > date' % year)
 		count = dictfetchall(cursor)
 		
 	elif operand == "on":
@@ -236,7 +236,7 @@ def selectionDetail(request):
 		cursor.execute('SELECT * FROM main_content WHERE %s < date' % year)	
 		contentData = dictfetchall(cursor)	
 		
-		cursor.execute('SELECT count(*) number FROM main_content WHERE %s < date' % year)	
+		cursor.execute('SELECT count(*) number FROM main_content WHERE %s < date' % year)
 		count = dictfetchall(cursor)
 
 	context = {
