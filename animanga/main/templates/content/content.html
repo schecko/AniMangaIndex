@@ -56,3 +56,24 @@
 {% else %}
 	<p> No creator information available</p>
 {% endif %}
+
+{% if volumeseasons %}
+	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
+		<tr>
+		{% if isSeason %}
+			<th>Season Number</th>
+			<th>Season Title</th>
+		{% else %}
+			<th>Volume Number</th>
+			<th>Volume Title</th>
+		{% endif %}
+		</tr>
+		{% for volumeseason in volumeseasons %}
+		<tr>
+			<td>{{ volumeseason.num }}</td>
+			<td>{{ creator.title }}</td>
+		</tr>
+		{% endfor %}
+{% else %}
+	<p> No season or volume information available</p>
+{% endif %}

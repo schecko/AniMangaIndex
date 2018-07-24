@@ -133,11 +133,20 @@ def contentDetail(request, contentID):
 	cursor.execute('SELECT A.contentID, B.contentID, B.type FROM main_content A, main_content B WHERE A.source_id = B.contentID AND A.contentID = %s' % contentID) 
 	sourceData = dictfetchall(cursor)
 
+	cursor.execute('SELECT * FROM main_volumeseason as vs, main_content as content where vs.contentID_id = content.contentID and content.contentID = %s' % contentID)
+	volumeseasons = dictfetchall(cursor)
+
+	isSeason = False
+	if contentData and contentData[0]['type'] == Content.ContentType.Anime:
+		isSeason = True
+
 	context = {
 		'contentList': contentData,
 		'sourcetype': sourceData,
 		'creatorList': creatorData,
-		'countCreator': countCreatorData
+		'countCreator': countCreatorData,
+		'volumeseasons': volumeseasons,
+		'isSeason': isSeason,
 	}
 	return HttpResponse(template.render(context, request))
 
