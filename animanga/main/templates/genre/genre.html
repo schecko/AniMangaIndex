@@ -1,5 +1,4 @@
-<p> Sort by Genre </p>
-<form action="/genre/">
+<form action="/genre/", label for="genre">Sort by Genre: </label>
   <select name="genre">
     <option value="Mystery">Mystery</option>
     <option value="Drama">Drama</option>
@@ -13,6 +12,12 @@
 
 <p> Current displaying genre: {{ contentGenre }}</p>
 
+{% if countContent %}
+	{% for contents in countContent %}
+		<th>Number of titles for this genre: {{contents.temp}}</th>
+	{% endfor %}
+{% endif %}
+			
 {% if contentList %}
 	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 		<tr>

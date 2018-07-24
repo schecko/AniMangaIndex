@@ -4,6 +4,7 @@
 		<p> Type: {{content.type}}<br/>
 		<p> Complete: {{content.complete}}<br/>
 		<p> Genre: {{content.genre}}<br/>
+		<p> Year released: {{content.date}}</p>
 		{% if sourcetype %}
 			{% for source in sourcetype %}
 				<p> Made from (source): {{source.type}}</p>
@@ -12,9 +13,22 @@
 			<p> Made from (source): None</p>
 		{% endif %}
 		<p> Rating: {{content.rating}}</p>
-		<p> Disagree with the current rating? You can change it here: </p>
-		<form action="/content/{{ content.contentID }}/changeRating/" method="get">
-		<input type="submit" value="Change Rating" />
+		<p> Disagree with the current rating? You can change it here: (update query)</p>
+		<form action="">
+		  <select name="rating">
+			<option value="0">0</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+		  </select>
+		  <input type="submit" value="Change rating">
 		</form>
 	{% endfor %}
 {% else %}
@@ -24,7 +38,13 @@
 {% if creatorList %}
 	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 		<tr>
-			<th>Creators</th>
+			{% if countCreator %}
+				{% for count in countCreator %}
+					<th>Creators ({{count.number}})</th>
+				{% endfor %}
+			{% else %}
+				<th>Creators</th>
+			{% endif %}
 			<th>Role</th>
 		</tr>
 
@@ -37,3 +57,4 @@
 {% else %}
 	<p> No creator information available</p>
 {% endif %}
+
