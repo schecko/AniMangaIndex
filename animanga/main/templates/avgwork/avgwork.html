@@ -8,7 +8,7 @@
 	</tr>
 	{% for create in createList %}
 	<tr>
-		<td>{{create.title}}</td>
+		<td><a href="/content/{{ create.contentID }}">{{ create.title }}</a></td>
 		<td>{{create.avgcount}}</td>
 	</tr>
 	{% endfor %}

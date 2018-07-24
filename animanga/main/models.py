@@ -87,8 +87,7 @@ class Create(models.Model):
 								on_delete = models.CASCADE)
 	creator = models.ForeignKey(Creator,
 								unique = False,
-								on_delete = models.DO_NOTHING,
-								primary_key = True)
+								on_delete = models.DO_NOTHING)
 
 	class Meta:
 		unique_together = (( "content", "creator"), )
@@ -110,4 +109,3 @@ class VolumeSeason(models.Model):
 
 	class Meta:
 		unique_together = (( "contentID", "num"), )
-	

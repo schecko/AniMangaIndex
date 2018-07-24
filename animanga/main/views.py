@@ -268,7 +268,7 @@ def createDetail(request):
 	template = loader.get_template('create/create.html')
 
 	#Queries
-	cursor.execute('SELECT creatorID, name, count(*) count FROM main_creator A, main_create B WHERE B.creator_id = A.creatorID GROUP BY creatorID')
+	cursor.execute('SELECT creatorID, name, count(*) count FROM main_creator, main_create WHERE creator_id = creatorID GROUP BY creatorID')
 	createData = dictfetchall(cursor)
 
 	context = {
