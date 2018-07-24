@@ -248,23 +248,14 @@ def selectionDetail(request):
 	return HttpResponse(template.render(context, request))
 
 def avgworkDetail(request):
+    avgworkData = None
+    cursor = connection.cursor()
     template = loader.get_template('avgwork/avgwork.html')
 
-    createList = Create.objects.all()
-    if not (createList):
-       return HttpResponse("No content available")
  
    #Queries
-    avgworkData = Create.objects.raw("""SELECT DISTINCT main_content.title, main_content.contentID, 
-	main_create.content_id, main_create.creator_id, AVG(main_create.content_id) as avgcount
-	FROM main_content, main_create
-	WHERE main_content.contentID = main_create.content_id
-	GROUP BY main_create.creator_id""")
-
-    try:
-        avgworkData[0].creator_id
-    except IndexError:
-        avgworkData = 0
+    cursor.execute('SELECT title, contentID, content_id, creator_id, AVG(creator_ID) avgcount FROM main_content A, main_create B WHERE contentID = content_id GROUP BY contentID')
+    avgworkData = dictfetchall(cursor)
     
     context = {
             'createList': avgworkData
