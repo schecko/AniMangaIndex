@@ -10,8 +10,8 @@ urlpatterns = [
 	path('creator/<int:creatorID>/', views.creatorDetail, name = 'creator detail'),
 	path('genre/', views.genreDetail, name = 'genre detail'),
 	path('projection/', views.projectionDetail, name = 'projection detail'),
-	path('selection/', views.selectionDetail, name = 'selection detail'),
+        path('selection/', views.selectionDetail, name = 'selection detail'),
 	path('contributorcount/', views.contributorcountDetail, name = 'contributorcount detail'),
 	path('create/', views.createDetail, name = 'create detail'),
-        path('create/allGenres/', views.createDetail, name = 'create all genres detail'),
+        path('division/', views.divisionDetail, name = 'division detail')
 ]

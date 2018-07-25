@@ -58,20 +58,6 @@ def fillDB():
 	# );
 	# Inserting data into Content table
 	# Note: foreign keys in django automatically get appended with _id after the variable name
-<<<<<<< HEAD
-	contentInsert = ['INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (0,"Anime","Steins;Gate",1,9,"2018","Mystery",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (1,"Anime","Tokyo Ghoul",1,7,"2018","Action",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (2,"Anime","Sword Art Online",0,7,"2018","Fantasy",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (3,"Book","Fate/Zero",1,7,"2006","Action",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (4,"Manga","Fate/Zero",1,8,"2010","Action",3)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (5,"Anime","Fate/Zero",1,9,"2011","Action",4)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (6,"Manga","Colin Adventures 1",1,10,"2018","Action",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (7,"Manga","Colin Adventures 2",1,10,"2018","Mystery",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (8,"Manga","Colin Adventures 3",1,10,"2018","SciFi",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (9,"Manga","Colin Adventures 4",1,10,"2018","Drama",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (10,"Manga","Colin Adventures 5",1,10,"2018","Fantasy",NULL)',
-					'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (11,"Manga","Colin Adventures 6",1,10,"2018","Comedy",NULL)']
-=======
 	contentInsert = [
 		'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (0,"Anime","Steins;Gate",1,9,"2018","Mystery",NULL)',
 		'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (1,"Anime","Tokyo Ghoul",1,7,"2018","Action",NULL)',
@@ -86,7 +72,6 @@ def fillDB():
 		'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (10,"Anime","Gurren Lagann (Anime)",2,10,"2007","Mecha",NULL)',
 		'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (11,"Anime","Bleach",2,6,"2004","Action",NULL)',
 	]
->>>>>>> 1be274160828606c3acc956933f855bf6613269b
 	i = 0
 	for contents in contentInsert:
 		cursor.execute(str(contentInsert[i]))
@@ -100,7 +85,6 @@ def fillDB():
 	  # name      VARCHAR(255)
 	# );
 	# Inserting data into Creator table	
-
 	creatorInsert = [
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (0,"1971","male","Kenichi Kawamura")',
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (1,"1969","male","Jukki Hanada")',
@@ -115,17 +99,16 @@ def fillDB():
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (10,"1973","male","Takashi Takeuchi")',
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (11,"1973","male","Ei Aoki")',
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (12,"1967","male","Akihiko Yoshida")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (13, "1995","male","Colin Chan")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (14, "1994","female","Linda Jang")'
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (15,"1941","male","Hayao Miyazaki")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (16,"1935","male","Isao Takahata")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (17,"1966","male","Goro Taniguchi")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (18,"1971","male","Hiroyuki Imaishi")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (19,"1966","male","Eiichi Kamagata")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (20,"1971","male","Takami Akai")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (21,"1959","male","Kazuki Nakashima")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (22,"1971","male","Kurasumi Sunayama")',
-		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (23,"1961","male","Noriyuki Abe")'
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (13,"1941","male","Hayao Miyazaki")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (14,"1935","male","Isao Takahata")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (15,"1966","male","Goro Taniguchi")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (16,"1971","male","Hiroyuki Imaishi")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (17,"1966","male","Eiichi Kamagata")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (18,"1971","male","Takami Akai")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (19,"1959","male","Kazuki Nakashima")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (20,"1971","male","Kurasumi Sunayama")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (21,"1961","male","Noriyuki Abe")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (22,"1995","male","Colin Chan")',
 	]
 	
 	i = 0
@@ -187,10 +170,13 @@ def fillDB():
 		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Gainax", 19)',
 		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Gainax", 20)',
 		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio Pierrot", 21)',
-		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Ufotable",14)',
-		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("White Fox",14)',
-		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio Pierrot",14)',
-		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio 3Hz",14)'
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("White Fox", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio Pierrot", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio 3Hz", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Ufotable", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio Ghibli", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Sunrise Studio", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Gainax", 22)',
 	]
 	
 	i = 0
@@ -208,7 +194,6 @@ def fillDB():
 	# );
 	#Inserting data into Create table
 	# Note: foreign keys in django automatically get appended with _id after the variable name
-
 	createInsert = [
 		'INSERT INTO main_create(content_id,creator_id,role) VALUES (0,0,"Director")',
 		'INSERT INTO main_create(content_id,creator_id,role) VALUES (0,1,"Animator")',
@@ -336,3 +321,4 @@ def fillDB():
 		cursor.execute(str(favoriteContentInsert[i]))
 		i+=1
 		result = cursor.fetchall()
+
