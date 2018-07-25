@@ -282,7 +282,7 @@ def divisionDetail(request):
     template = loader.get_template('division/division.html')
 
     #Queries
-    cursor.execute('SELECT C.name, C.creatorID FROM main_creator C WHERE NOT EXISTS (SELECT * FROM main_license L WHERE NOT EXISTS (SELECT H.creator_id FROM main_hire H WHERE L.studio_id = H.studio_id AND C.creatorID = H.creator_id))')
+    cursor.execute('SELECT C.name, C.creatorID FROM main_creator C WHERE NOT EXISTS (SELECT * FROM main_studio L WHERE NOT EXISTS (SELECT H.creator_id FROM main_hire H WHERE L.name = H.studio_id AND C.creatorID = H.creator_id))')
     allCreatorStudioData = dictfetchall(cursor)
 
     context = {
