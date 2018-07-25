@@ -134,9 +134,22 @@ def deleteContent(request, contentID):
 
 			if user['privileges'] == True:
 				# user has credentials
-				cursor.execute("delete from main_content where contentID = %s", [contentID])
-				user = dictfetchone(cursor)
-				return HttpResponseRedirect('.')
+				## NOTE: attempted both cursor and raw, both failed to work. 
+				# the cursor seems to trigger some key constraint conditions that 
+				# django performs in two steps, which does not happen with cursor as
+				# the cursor is not properly checked by django. Using the model.raw method
+				# seems to just be a no-op for who knows why. Performing the deletes in 
+				# the admin page do work, and performing the deletes directly onto the sql 
+				# do work as well using an external sql GUI, so this is certainly some django 
+				# specific nonsense.
+				# - raw method: (for marking)
+				# cursor.execute("delete from main_content where contentID = %s", [contentID])
+				# dictfetchone(cursor)
+				# - model raw method: (for sanity)
+				# Content.objects.raw("delete from main_content where contentID = %s" % contentID)
+				# - working alternative using django's api:
+				Content.objects.filter(contentID=contentID).delete()
+				return HttpResponseRedirect('/')
 			else:
 				# user does not have credentials, just return to the previous page
 				return HttpResponseRedirect('..')

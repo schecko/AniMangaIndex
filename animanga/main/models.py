@@ -39,7 +39,7 @@ class Content(models.Model):
 								unique = False,
 								blank = True,
 								null = True,
-								on_delete = models.SET_NULL)
+								on_delete = models.CASCADE)
 
 class FavoriteContent(models.Model):
 	userID = models.ForeignKey( User, 
