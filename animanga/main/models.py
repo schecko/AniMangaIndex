@@ -74,10 +74,10 @@ class License(models.Model):
 class Hire(models.Model):
 	studio = models.ForeignKey( Studio, 
 								unique = False,
-								on_delete = models.DO_NOTHING)
+								on_delete = models.CASCADE)
 	creator = models.ForeignKey(Creator,
 								unique = False,
-								on_delete = models.DO_NOTHING)
+								on_delete = models.CASCADE)
 
 	class Meta:
 		unique_together = (( "studio", "creator"), )
