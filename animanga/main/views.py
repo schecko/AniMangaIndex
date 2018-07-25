@@ -263,15 +263,29 @@ def contributorcountDetail(request):
     return HttpResponse(template.render(context, request))
 
 def createDetail(request):
-	createData = None
-	cursor = connection.cursor()
-	template = loader.get_template('create/create.html')
+    createData = None
+    cursor = connection.cursor()
+    template = loader.get_template('create/create.html')
 
-	#Queries
-	cursor.execute('SELECT creatorID, name, count(*) count FROM main_creator, main_create WHERE creator_id = creatorID GROUP BY creatorID')
-	createData = dictfetchall(cursor)
+    #Queries
+    cursor.execute('SELECT creatorID, name, count(*) count FROM main_creator, main_create WHERE creator_id = creatorID GROUP BY creatorID')
+    createData = dictfetchall(cursor)
 
-	context = {
-		'createList': createData
-	}
-	return HttpResponse(template.render(context, request))
+    context = {
+        'createList': createData,
+    }    
+    return HttpResponse(template.render(context, request))
+
+def divisionDetail(request):
+    allCreatorStudioData = None
+    cursor = connection.cursor()
+    template = loader.get_template('division/division.html')
+
+    #Queries
+    cursor.execute('SELECT C.name, C.creatorID FROM main_creator C WHERE NOT EXISTS (SELECT * FROM main_studio L WHERE NOT EXISTS (SELECT H.creator_id FROM main_hire H WHERE L.name = H.studio_id AND C.creatorID = H.creator_id))')
+    allCreatorStudioData = dictfetchall(cursor)
+
+    context = {
+        'allCreatorStudioList': allCreatorStudioData
+    }    
+    return HttpResponse(template.render(context, request))

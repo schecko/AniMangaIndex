@@ -1,0 +1,15 @@
+<p> Division Query Creators that Worked in Every Studio </p>
+
+{% if allCreatorStudioList %}
+	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
+	<tr> 
+		<th> Creator Name </th>
+	</tr>
+	{% for creator in allCreatorStudioList %}
+	<tr>
+		<td><a href="/creator/{{ creator.creatorID }}">{{ creator.name }}</a></td>
+	</tr>
+	{% endfor %}
+{% else %}
+	<p> No creator(s) working in every studio</p>
+{% endif %}

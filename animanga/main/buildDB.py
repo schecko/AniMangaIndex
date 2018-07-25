@@ -108,6 +108,7 @@ def fillDB():
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (19,"1959","male","Kazuki Nakashima")',
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (20,"1971","male","Kurasumi Sunayama")',
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (21,"1961","male","Noriyuki Abe")',
+		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (22,"1995","male","Colin Chan")',
 	]
 	
 	i = 0
@@ -169,6 +170,13 @@ def fillDB():
 		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Gainax", 19)',
 		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Gainax", 20)',
 		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio Pierrot", 21)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("White Fox", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio Pierrot", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio 3Hz", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Ufotable", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Studio Ghibli", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Sunrise Studio", 22)',
+		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Gainax", 22)',
 	]
 	
 	i = 0
@@ -313,3 +321,4 @@ def fillDB():
 		cursor.execute(str(favoriteContentInsert[i]))
 		i+=1
 		result = cursor.fetchall()
+
