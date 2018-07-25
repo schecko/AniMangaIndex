@@ -112,6 +112,51 @@ def index(request):
 	}
 	return HttpResponse(template.render(context, request))
 
+def isAdmin(request):
+	try:
+		with connection.cursor() as cursor:
+			cursor.execute("select * from main_user where userID = %s", [ request.session[LOGIN_KEY] ])
+			user = dictfetchone(cursor)
+
+			if user['privileges'] == True:
+				return True
+			else:
+				return False
+	except:
+		return False
+
+def deleteContent(request, contentID):
+	try:
+		# user is logged in, check if they are admin
+		with connection.cursor() as cursor:
+			cursor.execute("select * from main_user where userID = %s", [ request.session[LOGIN_KEY] ])
+			user = dictfetchone(cursor)
+
+			if user['privileges'] == True:
+				# user has credentials
+				## NOTE: attempted both cursor and raw, both failed to work. 
+				# the cursor seems to trigger some key constraint conditions that 
+				# django performs in two steps, which does not happen with cursor as
+				# the cursor is not properly checked by django. Using the model.raw method
+				# seems to just be a no-op for who knows why. Performing the deletes in 
+				# the admin page do work, and performing the deletes directly onto the sql 
+				# do work as well using an external sql GUI, so this is certainly some django 
+				# specific nonsense.
+				# - raw method: (for marking)
+				# cursor.execute("delete from main_content where contentID = %s", [contentID])
+				# dictfetchone(cursor)
+				# - model raw method: (for sanity)
+				# Content.objects.raw("delete from main_content where contentID = %s" % contentID)
+				# - working alternative using django's api:
+				Content.objects.filter(contentID=contentID).delete()
+				return HttpResponseRedirect('/')
+			else:
+				# user does not have credentials, just return to the previous page
+				return HttpResponseRedirect('..')
+	except KeyError:
+		# user is not logged in, direct to login
+		return HttpResponseRedirect('/login')
+
 def contentDetail(request, contentID):
 	cursor = connection.cursor()
 	template = loader.get_template('content/content.html')
@@ -122,7 +167,7 @@ def contentDetail(request, contentID):
 
 	# Queries
 	cursor.execute('SELECT * FROM main_content WHERE contentID = %s' % contentID)
-	contentData = dictfetchall(cursor)
+	contentData = dictfetchone(cursor)
 
 	cursor.execute('SELECT * FROM main_create A, main_creator B WHERE A.creator_id = B.creatorID AND A.content_id = %s' % contentID)
 	creatorData = dictfetchall(cursor)
@@ -130,14 +175,27 @@ def contentDetail(request, contentID):
 	cursor.execute('SELECT count(*) number FROM main_create A, main_creator B WHERE A.creator_id = B.creatorID AND A.content_id = %s' % contentID)
 	countCreatorData = dictfetchall(cursor)
 
-	cursor.execute('SELECT A.contentID, B.contentID, B.type FROM main_content A, main_content B WHERE A.source_id = B.contentID AND A.contentID = %s' % contentID) 
-	sourceData = dictfetchall(cursor)
+	if contentData:
+		cursor.execute('SELECT * from main_content where contentID = %s', [contentData['source_id']]) 
+		sourceData = dictfetchone(cursor)
+
+	cursor.execute('SELECT vs.title, vs.num FROM main_volumeseason as vs, main_content as content where vs.contentID_id = content.contentID and content.contentID = %s' % contentID)
+	volumeseasons = dictfetchall(cursor)
+
+	isSeason = False
+	if contentData and contentData['type'] == Content.ContentType.Anime:
+		isSeason = True
+
+	admin = isAdmin(request)
 
 	context = {
-		'contentList': contentData,
-		'sourcetype': sourceData,
+		'content': contentData,
+		'source': sourceData,
 		'creatorList': creatorData,
-		'countCreator': countCreatorData
+		'countCreator': countCreatorData,
+		'volumeseasons': volumeseasons,
+		'isSeason': isSeason,
+		'isAdmin': admin,
 	}
 	return HttpResponse(template.render(context, request))
 
