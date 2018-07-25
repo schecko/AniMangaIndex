@@ -5,12 +5,8 @@
 <p> Complete: {{content.complete}}<br/>
 <p> Genre: {{content.genre}}<br/>
 <p> Year released: {{content.date}}</p>
-{% if sourcetype %}
-	{% for source in sourcetype %}
-		<p> Made from (source): {{source.type}}</p>
-	{% endfor %}
-{% else %}
-	<p> Made from (source): None</p>
+{% if source %}
+	<td>Based on: </td></td><td><a href="/content/{{ source.contentID }}">{{ source.title }}</a></td>
 {% endif %}
 <p> Rating: {{content.rating}}</p>
 <p> Disagree with the current rating? You can change it here: (update query)</p>

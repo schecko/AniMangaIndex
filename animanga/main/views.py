@@ -130,8 +130,9 @@ def contentDetail(request, contentID):
 	cursor.execute('SELECT count(*) number FROM main_create A, main_creator B WHERE A.creator_id = B.creatorID AND A.content_id = %s' % contentID)
 	countCreatorData = dictfetchall(cursor)
 
-	cursor.execute('SELECT A.contentID, B.contentID, B.type FROM main_content A, main_content B WHERE A.source_id = B.contentID AND A.contentID = %s' % contentID) 
-	sourceData = dictfetchall(cursor)
+	if contentData:
+		cursor.execute('SELECT * from main_content where contentID = %s', [contentData['source_id']]) 
+		sourceData = dictfetchone(cursor)
 
 	cursor.execute('SELECT vs.title, vs.num FROM main_volumeseason as vs, main_content as content where vs.contentID_id = content.contentID and content.contentID = %s' % contentID)
 	volumeseasons = dictfetchall(cursor)
@@ -140,9 +141,12 @@ def contentDetail(request, contentID):
 	if contentData and contentData['type'] == Content.ContentType.Anime:
 		isSeason = True
 
+	logger.critical(contentData)
+	logger.critical(sourceData)
+
 	context = {
 		'content': contentData,
-		'sourcetype': sourceData,
+		'source': sourceData,
 		'creatorList': creatorData,
 		'countCreator': countCreatorData,
 		'volumeseasons': volumeseasons,
