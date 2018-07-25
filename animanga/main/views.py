@@ -112,6 +112,38 @@ def index(request):
 	}
 	return HttpResponse(template.render(context, request))
 
+def isAdmin(request):
+	try:
+		with connection.cursor() as cursor:
+			cursor.execute("select * from main_user where userID = %s", [ request.session[LOGIN_KEY] ])
+			user = dictfetchone(cursor)
+
+			if user['privileges'] == True:
+				return True
+			else:
+				return False
+	except:
+		return False
+
+def deleteContent(request, contentID):
+	try:
+		# user is logged in, check if they are admin
+		with connection.cursor() as cursor:
+			cursor.execute("select * from main_user where userID = %s", [ request.session[LOGIN_KEY] ])
+			user = dictfetchone(cursor)
+
+			if user['privileges'] == True:
+				# user has credentials
+				cursor.execute("delete from main_content where contentID = %s", [contentID])
+				user = dictfetchone(cursor)
+				return HttpResponseRedirect('.')
+			else:
+				# user does not have credentials, just return to the previous page
+				return HttpResponseRedirect('..')
+	except KeyError:
+		# user is not logged in, direct to login
+		return HttpResponseRedirect('/login')
+
 def contentDetail(request, contentID):
 	cursor = connection.cursor()
 	template = loader.get_template('content/content.html')
@@ -141,8 +173,7 @@ def contentDetail(request, contentID):
 	if contentData and contentData['type'] == Content.ContentType.Anime:
 		isSeason = True
 
-	logger.critical(contentData)
-	logger.critical(sourceData)
+	admin = isAdmin(request)
 
 	context = {
 		'content': contentData,
@@ -151,6 +182,7 @@ def contentDetail(request, contentID):
 		'countCreator': countCreatorData,
 		'volumeseasons': volumeseasons,
 		'isSeason': isSeason,
+		'isAdmin': admin,
 	}
 	return HttpResponse(template.render(context, request))
 

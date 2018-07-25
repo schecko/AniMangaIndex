@@ -80,6 +80,15 @@
 			<td>{{ volumeseason.title }}</td>
 		</tr>
 		{% endfor %}
+	</table>
 {% else %}
 	<p> No season or volume information available</p>
+{% endif %}
+
+{% if isAdmin %}
+<form action="/deleteContent/{{ content.contentID }}/" action="POST">
+    <input type="submit" value="Delete this content" />
+</form>
+{% else %}
+<td>Login to delete this content as an Admin!</td>
 {% endif %}

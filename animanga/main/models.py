@@ -39,16 +39,16 @@ class Content(models.Model):
 								unique = False,
 								blank = True,
 								null = True,
-								on_delete = models.DO_NOTHING)
+								on_delete = models.SET_NULL)
 
 class FavoriteContent(models.Model):
 	userID = models.ForeignKey( User, 
 								unique = False, 
-								on_delete = models.DO_NOTHING)
+								on_delete = models.CASCADE)
 
 	contentID = models.ForeignKey(  Content, 
 									unique = False,
-									on_delete = models.DO_NOTHING)
+									on_delete = models.CASCADE)
 
 	class Meta:
 		unique_together = (( "userID", "contentID"), )
@@ -65,7 +65,7 @@ class License(models.Model):
 									on_delete = models.CASCADE)
 	studio = models.ForeignKey( Studio,
 								unique = False,
-								on_delete = models.DO_NOTHING)
+								on_delete = models.CASCADE)
 	publisher = models.CharField(max_length = 255)
 
 	class Meta:
@@ -88,7 +88,7 @@ class Create(models.Model):
 								on_delete = models.CASCADE)
 	creator = models.ForeignKey(Creator,
 								unique = False,
-								on_delete = models.DO_NOTHING)
+								on_delete = models.CASCADE)
 
 	class Meta:
 		unique_together = (( "content", "creator"), )
