@@ -79,6 +79,13 @@ def login(request):
 						'main/login.html',
 						{ 'form': form })
 
+def isLoggedIn(request):
+	try:
+		request.session[LOGIN_KEY]
+		return True
+	except:
+		return False
+
 def logout(request):
 	try:
 		del request.session[LOGIN_KEY]
@@ -183,7 +190,7 @@ def contentDetail(request, contentID):
 	volumeseasons = dictfetchall(cursor)
 
 	isSeason = False
-	if contentData and contentData['type'] == Content.ContentType.Anime:
+	if contentData['type'] == Content.ContentType.Anime.name:
 		isSeason = True
 
 	admin = isAdmin(request)
@@ -196,6 +203,7 @@ def contentDetail(request, contentID):
 		'volumeseasons': volumeseasons,
 		'isSeason': isSeason,
 		'isAdmin': admin,
+		'loggedIn': isLoggedIn(request)
 	}
 	return HttpResponse(template.render(context, request))
 

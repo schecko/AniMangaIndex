@@ -1,3 +1,13 @@
+{% if loggedIn == False %}
+<form action="/login/" method="get">
+	<input type="submit" value="Login" />
+</form>
+{% else %}
+<form action="/logout/" method="get">
+	<input type="submit" value="Logout" />
+</form>
+{% endif %}
+
 {% if content %}
 <h2>Basic Information</h2>
 <p> Title: {{content.title}}<br/>
