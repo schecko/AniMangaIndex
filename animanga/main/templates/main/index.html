@@ -130,4 +130,12 @@
   
   <form action="/division/", label for="division">View Creators that have worked in every Studio(Division): </label>
 	  <input type="submit" value="Submit" />
-  </form>
+	</form>
+	
+{% if loggedIn == True %}
+	<form action="/nextFavorites/">See your Potential Favorites: </label>
+	  <input type="submit" value="Take a look!" />
+	</form>
+{% else %}
+	<p>Log in to see your new potential favorites!</p>
+{% endif %}

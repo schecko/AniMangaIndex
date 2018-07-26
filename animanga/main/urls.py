@@ -7,6 +7,7 @@ urlpatterns = [
 	path('login/', views.login, name = 'login'),
 	path('logout/', views.logout, name = 'logout'),
 	path('deleteContent/<int:contentID>/', views.deleteContent, name = 'delete content'),
+	path('nextFavorites/', views.nextFavorites, name = 'next favorites'),
 	path('content/<int:contentID>/', views.contentDetail, name = 'content detail'),
 	path('creator/<int:creatorID>/', views.creatorDetail, name = 'creator detail'),
 	path('genre/', views.genreDetail, name = 'genre detail'),

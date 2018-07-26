@@ -145,6 +145,36 @@ def isAdmin(request):
 	except:
 		return False
 
+def nextFavorites(request):
+	try:
+		with connection.cursor() as cursor:
+			# based on favorite content select similar (by genre) content  
+			cursor.execute("""
+				select contentID, title, complete, rating, date
+				from main_content 
+				where genre in 
+				(
+					 select genre 
+					 from main_user, main_favoriteContent, main_content 
+					 where userID_id = userID and contentID_id = contentID and userID = %s
+				) except
+				select contentID, title, complete, rating, date
+				from main_content, main_favoriteContent, main_user
+				where userID_id = userID and contentID_id = contentID and userID = %s
+				""",
+				[ request.session[LOGIN_KEY], request.session[LOGIN_KEY] ]
+			)
+			contentList = dictfetchall(cursor)
+
+			return render(	request, 
+					'main/nextFavorites.html',
+					{ 'contentList': contentList })
+
+	except KeyError:
+		# user is not logged in, direct to login
+		return HttpResponseRedirect('/login')		
+
+
 def deleteContent(request, contentID):
 	try:
 		# user is logged in, check if they are admin
