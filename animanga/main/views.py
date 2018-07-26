@@ -94,30 +94,31 @@ def logout(request):
 	return HttpResponseRedirect('..')
 
 def index(request):
-	cursor = connection.cursor()
-	try:
-		uid = request.session.get('userID')
-		user = User.objects.get(pk = uid)
-	except:
-		user = None
+	creatorData = None
+	with connection.cursor() as cursor:
+		cursor.execute('SELECT contentID, title, date, type, complete, rating FROM main_content')
+		contentData = dictfetchall(cursor)
+		if not contentData:
+			fillDB()
+			cursor.execute('SELECT contentID, title, date, type, complete, rating FROM main_content')
+			contentData = dictfetchall(cursor)
 
-	contentData = Content.objects.all()
-	if not contentData:
-		fillDB()
+		creatorOrContent = str(request.GET.get('creatorOrContent'))
+		if creatorOrContent == "Creator":
+			cursor.execute('SELECT creatorID, name, gender, birthday FROM main_creator')
+			creatorData = dictfetchall(cursor)
+			creatorNotContent = True
+		else:
+			creatorNotContent = False
 
-	try:
-		logger.critical("key is %s " % request.session[LOGIN_KEY])
-		loggedIn = True
-	except:
-		logger.critical("key is nothing ")
-		loggedIn = False
-
-	template = loader.get_template('main/index.html')
-	context = {
-		'contentList': contentData,
-		'loggedIn': loggedIn
-	}
-	return HttpResponse(template.render(context, request))
+		template = loader.get_template('main/index.html')
+		context = {
+			'contentList': contentData,
+			'creatorList': creatorData,
+			'loggedIn': isLoggedIn(request),
+			'creatorNotContent': creatorNotContent,
+		}
+		return HttpResponse(template.render(context, request))
 
 def isAdmin(request):
 	try:
