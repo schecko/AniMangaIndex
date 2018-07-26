@@ -22,7 +22,7 @@ class Content(models.Model):
 	type = models.IntegerField(choices = [ (tag.value, tag.name) for tag in ContentType ])
 	title = models.CharField(max_length = 255)
 	complete = models.BooleanField()
-	rating = models.IntegerField(validators = [MaxValueValidator(5), MinValueValidator(0)])
+	rating = models.IntegerField(validators = [MaxValueValidator(10), MinValueValidator(0)])
 	date = models.IntegerField()
 
 	class Genre(Enum):
