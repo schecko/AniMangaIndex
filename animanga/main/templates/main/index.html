@@ -8,8 +8,7 @@
 </form>
 {% endif %}
 
-<p> View all available (projection query) </p>
-<form action=".", label for="creatorOrContent">View all </label>
+<form action=".", label for="creatorOrContent">View: </label>
   <select name="creatorOrContent">
     <option value="Content">Content</option>
     <option value="Creator">Creator</option>
@@ -17,60 +16,8 @@
   <input type="submit" value="Submit">
 </form>
 
-<form action="/genre/", label for="genre">Sort by Genre: </label>
-  <select name="genre">
-    <option value="Mystery">Mystery</option>
-    <option value="Drama">Drama</option>
-    <option value="SciFi">SciFi</option>
-    <option value="Action">Action</option>
-	<option value="Fantasy">Fantasy</option>
-    <option value="Comedy">Comedy</option>
-  </select>
-  <input type="submit" value="Submit">
-</form>
-
-<form action="/projection/", label for="viewall">View all available (projection query): </label>
-  <select name="viewall">
-    <option value="Content">Content</option>
-    <option value="Creator">Creator</option>
-  </select>
-  <input type="submit" value="Submit">
-</form>
-
-<form action="/selection/", label for="operand">Find contents by year (selection query): </label>
-  <select name="operand">
-    <option value="before">before</option>
-    <option value="on">on</option>
-	<option value="after">after</option>
-  </select>
-  <SCRIPT LANGUAGE="JavaScript">
-	var year = 2018; /* Current year */
-	var date = year - 28; /* Start at year 1990 */
-	document.writeln ("<SELECT name='year'>");
-	while (date < year)
-	{
-		date++;
-		document.write ("<OPTION value=\"" +date+"\">" +date+ "");
-	}
-	document.write ("</SELECT>");
-  </script>
-  <input type="submit" value="Submit">
-</form>
-
-<form action="/create/", label for="numWorks">View number of works for each creator available: </label>
-	<input type="submit" value="View number of works" />
-</form>
-
-<form action="/contributorcount/", label for="contributorcount">View number of contributors per content: </label>
-	<input type="submit" value="View Number of Contributors Per Content" />
-</form>
-
-<form action="/division/", label for="division">View creators that have worked in every studio: </label>
-	<input type="submit" value="View Creators that have worked in every studio" />
-</form>
-
-
 {% if creatorNotContent == True %}
+	<h2>Creators</h2>
 	{% if creatorList %}
 		<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 			<tr>
@@ -90,7 +37,8 @@
 	{% else %}
 		<p> No creator information available</p>
 	{% endif %}
-{% else %}
+{% else %}	
+	<h2>Content</h2>
 	{% if contentList %}
 		<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 			<tr>
@@ -113,3 +61,49 @@
 		<p> No content information available</p>
 	{% endif %}
 {% endif %}
+
+<h2>Other Queries</h2>
+
+<form action="/genre/", label for="genre">View Content by Genre:</label>
+	<select name="genre">
+	  <option value="Mystery">Mystery</option>
+	  <option value="Drama">Drama</option>
+	  <option value="SciFi">SciFi</option>
+	  <option value="Action">Action</option>
+	  <option value="Fantasy">Fantasy</option>
+	  <option value="Comedy">Comedy</option>
+	</select>
+	<input type="submit" value="Submit">
+  </form>
+  
+  <form action="/selection/", label for="operand">View Content by Year: </label>
+	<select name="operand">
+	  <option value="before">before</option>
+	  <option value="on">on</option>
+	  <option value="after">after</option>
+	</select>
+	<SCRIPT LANGUAGE="JavaScript">
+	  var year = 2018; /* Current year */
+	  var date = year - 28; /* Start at year 1990 */
+	  document.writeln ("<SELECT name='year'>");
+	  while (date < year)
+	  {
+		  date++;
+		  document.write ("<OPTION value=\"" +date+"\">" +date+ "");
+	  }
+	  document.write ("</SELECT>");
+	</script>
+	<input type="submit" value="Submit">
+  </form>
+  
+  <form action="/create/", label for="numWorks">View Creators by Number of Works: </label>
+	  <input type="submit" value="Submit" />
+  </form>
+  
+  <form action="/contributorcount/", label for="contributorcount">View Content by Number of Contributors: </label>
+	  <input type="submit" value="Submit" />
+  </form>
+  
+  <form action="/division/", label for="division">View Creators that have worked in every Studio: </label>
+	  <input type="submit" value="Submit" />
+  </form>
