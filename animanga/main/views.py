@@ -187,7 +187,7 @@ def nextFavorites(request):
 		with connection.cursor() as cursor:
 			# based on favorite content select similar (by genre) content  
 			cursor.execute("""
-				select contentID, title, complete, rating, date
+				select contentID, title, complete, rating, date, genre
 				from main_content 
 				where genre in 
 				(
@@ -195,7 +195,7 @@ def nextFavorites(request):
 					 from main_user, main_favoriteContent, main_content 
 					 where userID_id = userID and contentID_id = contentID and userID = %s
 				) except
-				select contentID, title, complete, rating, date
+				select contentID, title, complete, rating, date, genre
 				from main_content, main_favoriteContent, main_user
 				where userID_id = userID and contentID_id = contentID and userID = %s
 				""",
