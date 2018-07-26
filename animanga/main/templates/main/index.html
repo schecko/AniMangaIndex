@@ -17,7 +17,7 @@
 </form>
 
 {% if creatorNotContent == True %}
-	<h2>Creators</h2>
+	<h2>Creators(Projection)</h2>
 	{% if creatorList %}
 		<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 			<tr>
@@ -38,7 +38,7 @@
 		<p> No creator information available</p>
 	{% endif %}
 {% else %}	
-	<h2>Content</h2>
+	<h2>Content(Projection)</h2>
 	{% if contentList %}
 		<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 			<tr>
@@ -64,7 +64,7 @@
 
 <h2>Other Queries</h2>
 
-<form action="/genre/", label for="genre">View Content by Genre:</label>
+<form action="/genre/", label for="genre">View Content by Genre(Selection):</label>
 	<select name="genre">
 	  <option value="Mystery">Mystery</option>
 	  <option value="Drama">Drama</option>
@@ -76,7 +76,7 @@
 	<input type="submit" value="Submit">
   </form>
   
-  <form action="/selection/", label for="operand">View Content by Year: </label>
+  <form action="/selection/", label for="operand">View Content by Year(Selection): </label>
 	<select name="operand">
 	  <option value="before">before</option>
 	  <option value="on">on</option>
@@ -96,14 +96,14 @@
 	<input type="submit" value="Submit">
   </form>
   
-  <form action="/create/", label for="numWorks">View Creators by Number of Works: </label>
+  <form action="/create/", label for="numWorks">View Creators by Number of Works(Aggregation):</label>
 	  <input type="submit" value="Submit" />
   </form>
   
-  <form action="/contributorcount/", label for="contributorcount">View Content by Number of Contributors: </label>
+  <form action="/contributorcount/", label for="contributorcount">View Content by Number of Contributors(Aggregation): </label>
 	  <input type="submit" value="Submit" />
   </form>
   
-  <form action="/division/", label for="division">View Creators that have worked in every Studio: </label>
+  <form action="/division/", label for="division">View Creators that have worked in every Studio(Division): </label>
 	  <input type="submit" value="Submit" />
   </form>
