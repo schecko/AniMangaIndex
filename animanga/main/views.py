@@ -326,18 +326,18 @@ def selectionDetail(request):
 	}
 	return HttpResponse(template.render(context, request))
 
-def contributorcountDetail(request):
-    contributorcountData = None
+def nestedDetail(request):
+    nestedData = None
     cursor = connection.cursor()
-    template = loader.get_template('contributorcount/contributorcount.html')
+    template = loader.get_template('nested/nested.html')
 
  
    #Queries
-    cursor.execute('SELECT title, contentID, content_id, creator_id, COUNT(*) as avgcount FROM main_content A, main_create B WHERE contentID = content_id GROUP BY contentID')
-    contributorcountData = dictfetchall(cursor)
+    cursor.execute('SELECT contentID, content_id, creator_id, title, rating, COUNT(*) as avgcount FROM main_content, main_create WHERE content_id=contentID AND rating > (SELECT AVG(rating) from main_content GROUP BY genre) GROUP BY contentID')
+    nestedData = dictfetchall(cursor)
     
     context = {
-            'createList': contributorcountData
+            'createList': nestedData
         }
     return HttpResponse(template.render(context, request))
 
