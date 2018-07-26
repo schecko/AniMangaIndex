@@ -96,11 +96,11 @@ def logout(request):
 def index(request):
 	creatorData = None
 	with connection.cursor() as cursor:
-		cursor.execute('SELECT contentID, title, date, type, complete, rating FROM main_content')
+		cursor.execute('SELECT contentID, title, date, type, complete, rating, genre FROM main_content')
 		contentData = dictfetchall(cursor)
 		if not contentData:
 			fillDB()
-			cursor.execute('SELECT contentID, title, date, type, complete, rating FROM main_content')
+			cursor.execute('SELECT contentID, title, date, type, complete, rating, genre FROM main_content')
 			contentData = dictfetchall(cursor)
 
 		creatorOrContent = str(request.GET.get('creatorOrContent'))
