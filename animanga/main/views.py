@@ -79,6 +79,13 @@ def login(request):
 						'main/login.html',
 						{ 'form': form })
 
+def isLoggedIn(request):
+	try:
+		request.session[LOGIN_KEY]
+		return True
+	except:
+		return False
+
 def logout(request):
 	try:
 		del request.session[LOGIN_KEY]
@@ -87,30 +94,31 @@ def logout(request):
 	return HttpResponseRedirect('..')
 
 def index(request):
-	cursor = connection.cursor()
-	try:
-		uid = request.session.get('userID')
-		user = User.objects.get(pk = uid)
-	except:
-		user = None
+	creatorData = None
+	with connection.cursor() as cursor:
+		cursor.execute('SELECT contentID, title, date, type, complete, rating, genre FROM main_content')
+		contentData = dictfetchall(cursor)
+		if not contentData:
+			fillDB()
+			cursor.execute('SELECT contentID, title, date, type, complete, rating, genre FROM main_content')
+			contentData = dictfetchall(cursor)
 
-	contentData = Content.objects.all()
-	if not contentData:
-		fillDB()
+		creatorOrContent = str(request.GET.get('creatorOrContent'))
+		if creatorOrContent == "Creator":
+			cursor.execute('SELECT creatorID, name, gender, birthday FROM main_creator')
+			creatorData = dictfetchall(cursor)
+			creatorNotContent = True
+		else:
+			creatorNotContent = False
 
-	try:
-		logger.critical("key is %s " % request.session[LOGIN_KEY])
-		loggedIn = True
-	except:
-		logger.critical("key is nothing ")
-		loggedIn = False
-
-	template = loader.get_template('main/index.html')
-	context = {
-		'contentList': contentData,
-		'loggedIn': loggedIn
-	}
-	return HttpResponse(template.render(context, request))
+		template = loader.get_template('main/index.html')
+		context = {
+			'contentList': contentData,
+			'creatorList': creatorData,
+			'loggedIn': isLoggedIn(request),
+			'creatorNotContent': creatorNotContent,
+		}
+		return HttpResponse(template.render(context, request))
 
 def isAdmin(request):
 	try:
@@ -179,11 +187,11 @@ def contentDetail(request, contentID):
 		cursor.execute('SELECT * from main_content where contentID = %s', [contentData['source_id']]) 
 		sourceData = dictfetchone(cursor)
 
-	cursor.execute('SELECT vs.title, vs.num FROM main_volumeseason as vs, main_content as content where vs.contentID_id = content.contentID and content.contentID = %s' % contentID)
+	cursor.execute('SELECT * FROM main_volumeseason where contentID_id = %s' % contentID)
 	volumeseasons = dictfetchall(cursor)
 
 	isSeason = False
-	if contentData and contentData['type'] == Content.ContentType.Anime:
+	if contentData['type'] == Content.ContentType.Anime.name:
 		isSeason = True
 
 	admin = isAdmin(request)
@@ -196,6 +204,7 @@ def contentDetail(request, contentID):
 		'volumeseasons': volumeseasons,
 		'isSeason': isSeason,
 		'isAdmin': admin,
+		'loggedIn': isLoggedIn(request)
 	}
 	return HttpResponse(template.render(context, request))
 
