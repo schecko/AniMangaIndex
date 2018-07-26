@@ -1,15 +1,16 @@
-<p> Creators whose birthyear is earlier than the average birthyear of all creators  </p>
-
+<p> Contents with Ratings Greater Than the Average Ratings of All Contents </p>
 {% if createList %}
 	<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
 	<tr> 
-		<th> Creator Name </th>
-		<th> Birthyear of Creators </th>
+		<th> Content Name </th>
+		<th> Rating </th>
+		<th> Averate Number of Creators </th>
 	</tr>
 	{% for create in createList %}
 	<tr>
-		<td><a href="/creator/{{ create.creatorID }}">{{ create.name }}</a></td>
-		<td>{{create.birthday}}</td>
+		<td><a href="/content/{{ create.contentID }}">{{ create.title }}</a></td>
+		<td>{{create.rating}}</td>
+		<td>{{create.avgcount}}</td>
 	</tr>
 	{% endfor %}
 {% else %}

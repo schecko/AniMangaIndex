@@ -333,7 +333,7 @@ def nestedDetail(request):
 
  
    #Queries
-    cursor.execute('SELECT creatorID, name, birthday FROM main_creator WHERE birthday < (SELECT AVG(birthday) from main_creator)')
+    cursor.execute('SELECT contentID, content_id, creator_id, title, rating, COUNT(*) as avgcount FROM main_content, main_create WHERE content_id=contentID AND rating > (SELECT AVG(rating) from main_content GROUP BY genre) GROUP BY contentID')
     nestedData = dictfetchall(cursor)
     
     context = {
