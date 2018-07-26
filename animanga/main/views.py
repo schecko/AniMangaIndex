@@ -179,7 +179,7 @@ def contentDetail(request, contentID):
 		cursor.execute('SELECT * from main_content where contentID = %s', [contentData['source_id']]) 
 		sourceData = dictfetchone(cursor)
 
-	cursor.execute('SELECT vs.title, vs.num FROM main_volumeseason as vs, main_content as content where vs.contentID_id = content.contentID and content.contentID = %s' % contentID)
+	cursor.execute('SELECT * FROM main_volumeseason where contentID_id = %s' % contentID)
 	volumeseasons = dictfetchall(cursor)
 
 	isSeason = False
