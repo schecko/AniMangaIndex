@@ -146,6 +146,42 @@ def index(request):
 		}
 		return HttpResponse(template.render(context, request))
 
+def userDetail(request):
+	try:
+		with connection.cursor() as cursor:
+			logger.critical("herere 1 ")
+			cursor.execute("select * from main_user where userID = %s", [ request.session[LOGIN_KEY] ])
+			logger.critical("here 2")
+			user = dictfetchone(cursor)
+			logger.critical("here 3")
+
+			# obtain the average rating of favorites by genre
+			cursor.execute("""
+				select genre, avg(rating) as rating
+				from (
+					select genre, rating
+					from main_content, main_favoriteContent, main_user 
+					where contentID_id = contentID and userID = userID_id and userID = %s
+				)
+				group by genre
+				""",
+				[ user[LOGIN_KEY] ]
+			)
+			logger.critical("here 4")
+			averageRatings = dictfetchall(cursor)
+			logger.critical(averageRatings)
+			context = {
+				'user': user,
+				'averageRatings': averageRatings,
+			}
+			logger.critical(user)
+		return render(request, "main/userDetail.html", context)
+	except Exception as e:
+		logger.critical("error is ")
+		logger.critical(e)
+		# send to index on error.
+		return HttpResponseRedirect('/')
+
 def isAdmin(request):
 	try:
 		with connection.cursor() as cursor:
