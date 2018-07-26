@@ -8,6 +8,7 @@ from .models import *
 from .buildDB import *
 
 import logging
+from enum import Enum
 
 logger = logging.getLogger(__name__)
 
@@ -93,8 +94,15 @@ def logout(request):
 		pass
 	return HttpResponseRedirect('..')
 
+class IndexQuery(Enum):
+	Content = 0
+	Creator = 1
+	Joined = 2
+
 def index(request):
 	creatorData = None
+	contentData = None
+	joinedData = None
 	with connection.cursor() as cursor:
 		cursor.execute('SELECT contentID, title, date, type, complete, rating, genre FROM main_content')
 		contentData = dictfetchall(cursor)
@@ -103,20 +111,24 @@ def index(request):
 			cursor.execute('SELECT contentID, title, date, type, complete, rating, genre FROM main_content')
 			contentData = dictfetchall(cursor)
 
-		creatorOrContent = str(request.GET.get('creatorOrContent'))
-		if creatorOrContent == "Creator":
+		indexQuery = str(request.GET.get('indexQuery'))
+		indexView = IndexQuery.Content.name # default
+		if indexQuery == "Creator":
 			cursor.execute('SELECT creatorID, name, gender, birthday FROM main_creator')
 			creatorData = dictfetchall(cursor)
-			creatorNotContent = True
-		else:
-			creatorNotContent = False
+			indexView = IndexQuery.Creator.name
+		elif indexQuery == "Joined":
+			indexView = IndexQuery.Joined.name
+			cursor.execute('select * from main_creator, main_content, main_create where content_id = contentID and creator_id = creatorID')
+			joinedData = dictfetchall(cursor)
 
 		template = loader.get_template('main/index.html')
 		context = {
 			'contentList': contentData,
 			'creatorList': creatorData,
+			'joinedList': joinedData,
 			'loggedIn': isLoggedIn(request),
-			'creatorNotContent': creatorNotContent,
+			'indexView': indexView,
 		}
 		return HttpResponse(template.render(context, request))
 

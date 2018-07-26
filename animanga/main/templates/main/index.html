@@ -8,15 +8,16 @@
 </form>
 {% endif %}
 
-<form action=".", label for="creatorOrContent">View: </label>
-  <select name="creatorOrContent">
+<form action=".", label for="indexQuery">View: </label>
+  <select name="indexQuery">
     <option value="Content">Content</option>
-    <option value="Creator">Creator</option>
+	<option value="Creator">Creator</option>
+	<option value="Joined">Joined</option>
   </select>
   <input type="submit" value="Submit">
 </form>
 
-{% if creatorNotContent == True %}
+{% if indexView == "Creator" %}
 	<h2>Creators(Projection)</h2>
 	{% if creatorList %}
 		<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
@@ -37,7 +38,30 @@
 	{% else %}
 		<p> No creator information available</p>
 	{% endif %}
-{% else %}	
+{% elif indexView == "Joined" %}
+	<h2>Content Join Creator(Join)</h2>
+	{% if joinedList %}
+		<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
+			<tr>
+				<th>Title</th>
+				<th>Creator</th>
+				<th>Complete</th>
+				<th>Rating</th>
+			</tr>
+
+			{% for joined in joinedList %}
+			<tr>
+				<td><a href="/content/{{ joined.contentID }}">{{ joined.title }}</a></td>
+				<td><a href="/creator/{{ joined.creatorID }}">{{ joined.name }}</a></td>
+				<td>{{ joined.complete }}</td>
+				<td>{{ joined.rating }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	{% else %}
+		<p> No Joined information available</p>
+	{% endif %}
+{% else %}
 	<h2>Content(Projection)</h2>
 	{% if contentList %}
 		<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
