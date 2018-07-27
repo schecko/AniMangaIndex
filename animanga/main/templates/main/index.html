@@ -10,9 +10,10 @@
 
 <form action=".", label for="indexQuery">View: </label>
   <select name="indexQuery">
-    <option value="Content">Content</option>
+  <option value="Content">Content</option>
 	<option value="Creator">Creator</option>
 	<option value="Joined">Joined</option>
+	<option value="FavoriteContent">FavoriteContent</option>
   </select>
   <input type="submit" value="Submit">
 </form>
@@ -61,6 +62,29 @@
 	{% else %}
 		<p> No Joined information available</p>
 	{% endif %}
+
+{% elif indexView == "FavoriteContent" %}
+	<h2>Favorite Content</h2>
+	{% if contentList %}
+		<table style = "width: 100%; border: 1px solid black; padding: 15px; text-align: left">
+			<tr>
+				<th>Title</th>
+				<th>Genre</th>
+				<th>Complete</th>
+				<th>Rating</th>
+			</tr>
+			{% for content in contentList %}
+			<tr>
+				<td><a href="/content/{{ content.contentID }}">{{ content.title }}</a></td>
+				<td>{{ content.genre  }}</td>
+				<td>{{ content.complete }}</td>
+				<td>{{ content.rating }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	{% else %}
+		<p> No favorite information available</p>
+	{% endif %}
 {% else %}
 	<h2>Content(Projection)</h2>
 	{% if contentList %}
@@ -70,6 +94,9 @@
 				<th>Genre</th>
 				<th>Complete</th>
 				<th>Rating</th>
+				{% if loggedIn == True %}
+				<th>Favorite</th>
+				{% endif %}
 			</tr>
 
 			{% for content in contentList %}
@@ -78,6 +105,11 @@
 				<td>{{ content.genre  }}</td>
 				<td>{{ content.complete }}</td>
 				<td>{{ content.rating }}</td>
+				{% if loggedIn == True %}
+				<td><form action="/addFavorite/{{ content.contentID }}">
+					<input type="submit" value="Add to Favorites"/>
+				</form></td>
+				{% endif %}
 			</tr>
 			{% endfor %}
 		</table>
@@ -130,4 +162,12 @@
   
   <form action="/division/", label for="division">View Creators that have worked in every Studio(Division): </label>
 	  <input type="submit" value="Submit" />
-  </form>
+	</form>
+	
+{% if loggedIn == True %}
+	<form action="/nextFavorites/">See your Suggested Favorites: </label>
+	  <input type="submit" value="Take a look!" />
+	</form>
+{% else %}
+	<p>Log in to see your suggested favorites!</p>
+{% endif %}
