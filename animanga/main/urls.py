@@ -13,9 +13,8 @@ urlpatterns = [
 	path('creator/<int:creatorID>/', views.creatorDetail, name = 'creator detail'),
 	path('userDetail/', views.userDetail, name = 'user detail'),
 	path('genre/', views.genreDetail, name = 'genre detail'),
-	path('projection/', views.projectionDetail, name = 'projection detail'),
-        path('selection/', views.selectionDetail, name = 'selection detail'),
+	path('selection/', views.selectionDetail, name = 'selection detail'),
 	path('nested/', views.nestedDetail, name = 'nested detail'),
 	path('create/', views.createDetail, name = 'create detail'),
-        path('division/', views.divisionDetail, name = 'division detail')
+	path('division/', views.divisionDetail, name = 'division detail')
 ]

@@ -249,7 +249,7 @@ def nextFavorites(request):
 
 	except KeyError:
 		# user is not logged in, direct to login
-		return HttpResponseRedirect('/login')		
+		return HttpResponseRedirect('/login')
 
 
 def deleteContent(request, contentID):
@@ -367,35 +367,6 @@ def genreDetail(request):
 	}
 	return HttpResponse(template.render(context, request))
 
-def projectionDetail(request):
-	contentData = None
-	creatorData = None
-	count = None
-	cursor = connection.cursor()
-	template = loader.get_template('main/projection.html')
-
-	viewall = str(request.GET.get('viewall'))
-	if viewall == "Content":
-		cursor.execute('SELECT contentID, title, date, type, complete, rating FROM main_content')
-		contentData = dictfetchall(cursor)
-
-		cursor.execute('SELECT count(*) number FROM main_content')
-		count = dictfetchall(cursor)
-
-	elif viewall == "Creator":
-		cursor.execute('SELECT creatorID, name, count(*) numberofworks FROM main_creator A, main_create B WHERE B.creator_id = A.creatorID GROUP BY creatorID')
-		creatorData = dictfetchall(cursor)
-
-		cursor.execute('SELECT count(*) number FROM main_creator')
-		count = dictfetchall(cursor)
-
-	context = {
-		'contentList': contentData,
-		'creatorList': creatorData,
-		'count': count
-	}
-	return HttpResponse(template.render(context, request))
-
 def selectionDetail(request):
 	contentData = None
 	count = None
@@ -438,11 +409,10 @@ def nestedDetail(request):
     cursor = connection.cursor()
     template = loader.get_template('nested/nested.html')
 
- 
    #Queries
     cursor.execute('SELECT contentID, content_id, creator_id, title, rating, COUNT(*) as avgcount FROM main_content, main_create WHERE content_id=contentID AND rating > (SELECT AVG(rating) from main_content GROUP BY genre) GROUP BY contentID')
     nestedData = dictfetchall(cursor)
-    
+
     context = {
             'createList': nestedData
         }
@@ -459,7 +429,7 @@ def createDetail(request):
 
     context = {
         'createList': createData,
-    }    
+    }
     return HttpResponse(template.render(context, request))
 
 def divisionDetail(request):
@@ -473,5 +443,5 @@ def divisionDetail(request):
 
     context = {
         'allCreatorStudioList': allCreatorStudioData
-    }    
+    }
     return HttpResponse(template.render(context, request))
