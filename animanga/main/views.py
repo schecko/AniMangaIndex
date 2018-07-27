@@ -153,7 +153,7 @@ def userDetail(request):
 			user = dictfetchone(cursor)
 
 			cursor.execute("""
-				select title, complete, rating, date, genre from 
+				select contentID, title, complete, rating, date, genre from 
 				main_content, main_favoriteContent, main_user 
 				where contentID_id = contentID and userID = userID_id and userID = %s
 			""", [ user[LOGIN_KEY] ])
