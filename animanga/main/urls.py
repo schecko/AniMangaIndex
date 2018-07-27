@@ -11,6 +11,7 @@ urlpatterns = [
 	path('addFavorite/<int:contentID>/', views.addFavorite, name = 'add favorite'),
 	path('content/<int:contentID>/', views.contentDetail, name = 'content detail'),
 	path('creator/<int:creatorID>/', views.creatorDetail, name = 'creator detail'),
+	path('userDetail/', views.userDetail, name = 'user detail'),
 	path('genre/', views.genreDetail, name = 'genre detail'),
 	path('projection/', views.projectionDetail, name = 'projection detail'),
         path('selection/', views.selectionDetail, name = 'selection detail'),
