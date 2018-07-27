@@ -230,7 +230,7 @@ def fillDB():
 
 	# CREATE TABLE VolumeSeason(
 		# contentID INT PRIMARY KEY, 
-		# num       INT,
+		# num       INT PRIMARY KEY,
 		# title     VARCHAR(255),
 		# FOREIGN KEY (contentID) REFERENCES main_content(contentID) ON DELETE CASCADE
 	# );
