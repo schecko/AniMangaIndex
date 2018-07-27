@@ -67,7 +67,8 @@ Users can also view how many creators worked on the same content.
         --> http://localhost:8000/contributorcount/
 
 Nested aggregation with group-by:
-TODO
+User can finding creators whose age is younger than the average age of all creators.
+        --> http://127.0.0.1:8000/nested/
 
 Update query:
 Users can update the rating of anime or manga (Botton labeled "Change Rating"):
@@ -93,12 +94,8 @@ Find creators that worked in every studio.
 ##
 # Dev procedures ( not for the TA ):
 ## 
-1) delete db.sqlite
-2) pyhton manage.py migrate
+1) delete db.sqlite3
+2) python manage.py migrate
 3) python manage.py runserver
 4) Go to index page 127.0.0.1:8000
 5) Starting testing
-
-Testing:
-Specific function test(query tests):
-
