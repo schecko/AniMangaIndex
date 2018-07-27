@@ -82,10 +82,10 @@ def login(request):
 
 def isLoggedIn(request):
 	try:
-		request.session[LOGIN_KEY]
-		return True
+		uid = request.session[LOGIN_KEY]
+		return True, uid
 	except:
-		return False
+		return False, None
 
 def logout(request):
 	try:
@@ -98,11 +98,14 @@ class IndexQuery(Enum):
 	Content = 0
 	Creator = 1
 	Joined = 2
+	FavoriteContent = 3
 
 def index(request):
 	creatorData = None
 	contentData = None
 	joinedData = None
+	loggedIn, userID = isLoggedIn(request)
+
 	with connection.cursor() as cursor:
 		cursor.execute('SELECT contentID, title, date, type, complete, rating, genre FROM main_content')
 		contentData = dictfetchall(cursor)
@@ -121,13 +124,24 @@ def index(request):
 			indexView = IndexQuery.Joined.name
 			cursor.execute('select * from main_creator, main_content, main_create where content_id = contentID and creator_id = creatorID')
 			joinedData = dictfetchall(cursor)
+		elif indexQuery == "FavoriteContent":
+			indexView = IndexQuery.FavoriteContent.name
+			if loggedIn == True:
+				cursor.execute("""
+					select title, complete, rating, date, genre from 
+					main_content, main_favoriteContent, main_user 
+					where contentID_id = contentID and userID = userID_id and userID = %s
+				""", [ userID ])
+				contentData = dictfetchall(cursor)
+			else:
+				contentData = None
 
 		template = loader.get_template('main/index.html')
 		context = {
 			'contentList': contentData,
 			'creatorList': creatorData,
 			'joinedList': joinedData,
-			'loggedIn': isLoggedIn(request),
+			'loggedIn': loggedIn,
 			'indexView': indexView,
 		}
 		return HttpResponse(template.render(context, request))
@@ -144,6 +158,59 @@ def isAdmin(request):
 				return False
 	except:
 		return False
+
+def addFavorite(request, contentID):
+	try:
+		with connection.cursor() as cursor:
+			cursor.execute("""
+				select * 
+				from main_user 
+				where userID = %s""",
+				[ request.session[LOGIN_KEY] ]
+			)
+			user = dictfetchone(cursor)
+
+			cursor.execute("""
+				insert into main_favoritecontent(userID_id, contentID_id)
+				values (%s, %s)""", 
+				[ user[LOGIN_KEY], contentID ]
+			)
+			return HttpResponseRedirect('/')
+	except KeyError:
+		# user is not logged in, direct to login
+		return HttpResponseRedirect('/login')
+	except: 
+		return HttpResponseRedirect('/')
+
+def nextFavorites(request):
+	try:
+		with connection.cursor() as cursor:
+			# based on favorite content select similar (by genre) content  
+			cursor.execute("""
+				select contentID, title, complete, rating, date, genre
+				from main_content 
+				where genre in 
+				(
+					 select genre 
+					 from main_user, main_favoriteContent, main_content 
+					 where userID_id = userID and contentID_id = contentID and userID = %s
+				) except
+				select contentID, title, complete, rating, date, genre
+				from main_content, main_favoriteContent, main_user
+				where userID_id = userID and contentID_id = contentID and userID = %s
+				""",
+				[ request.session[LOGIN_KEY], request.session[LOGIN_KEY] ]
+			)
+			contentList = dictfetchall(cursor)
+
+			return render(	request, 
+					'main/nextFavorites.html',
+					{ 'contentList': contentList })
+
+	except KeyError:
+		# user is not logged in, direct to login
+		return HttpResponseRedirect('/login')		
+
 
 def deleteContent(request, contentID):
 	try:
