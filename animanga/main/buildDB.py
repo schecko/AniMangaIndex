@@ -17,13 +17,13 @@ def fillDB():
 		'INSERT INTO main_user(userID,privileges,password) VALUES ("scott", 1, 123)',
 		'INSERT INTO main_user(userID,privileges,password) VALUES ("test",  0, 123)',
 	]
-	
+
 	i = 0
 	for contents in userInsert:
 		cursor.execute(str(userInsert[i]))
 		i+=1
 		result = cursor.fetchall()
-		
+
 	# CREATE TABLE main_studio(
 	  # name    VARCHAR(255) PRIMARY KEY,variable
 	  # founded DATE
@@ -38,13 +38,13 @@ def fillDB():
 		'INSERT INTO main_studio(name,founded) VALUES ("Sunrise Studio","1972")',
 		'INSERT INTO main_studio(name,founded) VALUES ("Gainax",		"1984")',
 	]
-	
+
 	i = 0
 	for contents in studioInsert:
 		cursor.execute(str(studioInsert[i]))
 		i+=1
 		result = cursor.fetchall()
-	
+
 	# CREATE TABLE main_content(
 	  # contentID INT PRIMARY KEY,
 	  # type      VARCHAR(255),
@@ -72,12 +72,13 @@ def fillDB():
 		'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (10,"Anime","Gurren Lagann (Anime)",2,10,"2007","Mecha",NULL)',
 		'INSERT INTO main_content(contentID,type,title,complete,rating,date,genre,source_id) VALUES (11,"Anime","Bleach",2,6,"2004","Action",NULL)',
 	]
+
 	i = 0
 	for contents in contentInsert:
 		cursor.execute(str(contentInsert[i]))
 		i+=1
 		result = cursor.fetchall()
-		
+
 	# CREATE TABLE main_creator(
 	  # creatorID INT PRIMARY KEY,
 	  # birthday  DATE,
@@ -110,13 +111,13 @@ def fillDB():
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (21,"1961","male","Noriyuki Abe")',
 		'INSERT INTO main_creator(creatorID,birthday,gender,name) VALUES (22,"1995","male","Colin Chan")',
 	]
-	
+
 	i = 0
 	for contents in creatorInsert:
 		cursor.execute(str(creatorInsert[i]))
 		i+=1
 		result = cursor.fetchall()
-	
+
 	# CREATE TABLE main_license(
 	  # contentID INT PRIMARY KEY,
 	  # studio    VARCHAR(255),
@@ -132,20 +133,20 @@ def fillDB():
 		'INSERT INTO main_license(contentID_id,studio_id,publisher) VALUES (2,"Studio 3Hz","Aniplex of America")',
 		'INSERT INTO main_license(contentID_id,studio_id,publisher) VALUES (3,"Ufotable","Type-Moon")'
 	]
-	
+
 	i = 0
 	for contents in licenseInsert:
 		cursor.execute(str(licenseInsert[i]))
 		i+=1
 		result = cursor.fetchall()
-	
+
 	# CREATE TABLE main_hire(
 	  # studio  VARCHAR(255) PRIMARY KEY,
 	  # creator INT,
 	  # FOREIGN KEY(studio) references main_studio(studio) ON DELETE NO ACTION,
 	  # FOREIGN KEY (creator) references main_creator(creatorID) ON DELETE NO ACTION
 	# );
-	# Inserting data into Hire table	
+	# Inserting data into Hire table
 	# Note: foreign keys in django automatically get appended with _id after the variable name
 	hireInsert = [
 		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("White Fox",0)',
@@ -178,13 +179,13 @@ def fillDB():
 		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Sunrise Studio", 22)',
 		'INSERT INTO main_hire(studio_id,creator_id) VALUES ("Gainax", 22)',
 	]
-	
+
 	i = 0
 	for contents in hireInsert:
 		cursor.execute(str(hireInsert[i]))
 		i+=1
 		result = cursor.fetchall()
-		
+
 	# CREATE TABLE main_create(
 	  # content INT PRIMARY KEY,
 	  # creator INT,
@@ -220,13 +221,13 @@ def fillDB():
 		'INSERT INTO main_create(content_id,creator_id,role) VALUES (10,18,"Producer")',
 		'INSERT INTO main_create(content_id,creator_id,role) VALUES (11,21,"Director")',
 	]
-	
+
 	i = 0
 	for contents in createInsert:
 		cursor.execute(str(createInsert[i]))
 		i+=1
 		result = cursor.fetchall()
-		
+
 	# CREATE TABLE VolumeSeason(
 		# contentID INT PRIMARY KEY, 
 		# num       INT PRIMARY KEY,
@@ -294,13 +295,13 @@ def fillDB():
 		'INSERT INTO main_volumeSeason(contentID_id,num,title) VALUES (11,15,"Season 15: Gotei 13 Invading Army")',
 		'INSERT INTO main_volumeSeason(contentID_id,num,title) VALUES (11,16,"Season 16: The Lost Agent")',
 	]
-	
+
 	i = 0
 	for contents in volumeSeasonInsert:
 		cursor.execute(str(volumeSeasonInsert[i]))
 		i+=1
 		result = cursor.fetchall()
-	
+
 	# CREATE TABLE main_favoritecontent(
 	  # userID VARCHAR(255),
 	  # contentID INT,
@@ -315,7 +316,7 @@ def fillDB():
 							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES ("linda",1)',
 							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES ("scott",3)',
 							'INSERT INTO main_favoritecontent(userID_id,contentID_id) VALUES ("test",5)']
-	
+
 	i = 0
 	for contents in favoriteContentInsert:
 		cursor.execute(str(favoriteContentInsert[i]))
