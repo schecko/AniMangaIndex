@@ -1,7 +1,9 @@
 # AniMangaIndex
 
+This was a project created for a university databases course and so be aware nothing in this repository is production ready. The purpose of this project is to create a simple service for users to view, create and rate anime, manga, and novels and obtain information about their creators, studios, and licensors. There is some simple login/signup functionality with users able to store their favorite content and look for other content similar (based on genre) to what they have already favorited. Please note: the user information is stored in plain text(including passwords), so please do not use any real information to signup if you plan to install and run this project for yourself. Also, be aware that on initial page load of the index that the local database will be filled with some dummy data, so be patient if it takes longer than normal to respond.
+
 # Requirements ( for development )
-- the root access
+- root access to your machine (i.e. don't use library or school computers)
 - ubuntu 16.04
 - python (at least version 3.x)
 
