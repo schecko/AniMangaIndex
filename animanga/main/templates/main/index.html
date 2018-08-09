@@ -3,9 +3,13 @@
 	<input type="submit" value="Login" />
 </form>
 {% else %}
-<form action="/logout/" method="get">
+<form action="/logout/" method="get" style = "float: left; padding-right: 15px">
 	<input type="submit" value="Logout" />
 </form>
+<form action="/userDetail/" method="get">
+	<input type="submit" value="User Detail" />
+</form>
+
 {% endif %}
 
 <form action=".", label for="indexQuery">View: </label>

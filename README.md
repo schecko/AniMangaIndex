@@ -59,6 +59,10 @@ Users can view how many works a creator has worked on.
 Users can also view how many creators worked on the same content.
         <br/>--> http://localhost:8000/contributorcount/
 
+Nested aggregation with group-by:
+User can finding creators whose age is younger than the average age of all creators.
+        <br/>--> http://127.0.0.1:8000/nested/
+
 Update query:
 Users can update the rating of anime or manga (Botton labeled "Change Rating"):
         <br/>--> http://localhost:8000/content/3/
@@ -79,5 +83,4 @@ Admin can delete anime or manga (Button labeled "Delete this content" when logge
 Division query:
 Find creators that worked in every studio.
         <br/>--> http://localhost:8000/division/
-
 
